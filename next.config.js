@@ -5,4 +5,7 @@ module.exports = {
     locales: ["en-US", "tr"],
     defaultLocale: "en-US",
   },
+  images: {
+    domains: ["media.graphcms.com"],
+  },
 };

@@ -1,0 +1,8 @@
+query IndexPage {
+  listings {
+    id
+    bannerImage {
+      url
+    }
+  }
+}
