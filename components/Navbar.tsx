@@ -11,7 +11,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const intl = useIntl();
 
   return (
-    <Flex justify="space-between" p="4">
+    <Flex justify="space-between" alignItems="center" p="4" minH="20">
       <NextLink href="/" passHref>
         <Link>
           <Image src="/logo.png" alt="Mavi Emlak" w="40" />
