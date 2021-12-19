@@ -1,0 +1,38 @@
+{
+  "about": [
+    {
+      "type": 0,
+      "value": "About"
+    }
+  ],
+  "buy": [
+    {
+      "type": 0,
+      "value": "Buy"
+    }
+  ],
+  "contact": [
+    {
+      "type": 0,
+      "value": "Contact"
+    }
+  ],
+  "home": [
+    {
+      "type": 0,
+      "value": "Home"
+    }
+  ],
+  "rent": [
+    {
+      "type": 0,
+      "value": "Rent"
+    }
+  ],
+  "testimonials": [
+    {
+      "type": 0,
+      "value": "Testimonials"
+    }
+  ]
+}
