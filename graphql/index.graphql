@@ -1,6 +1,32 @@
 query IndexPage {
+  siteSetting(where: { id: "ckxe6rk5korc10d57wbajch88" }) {
+    featuredListings {
+      ... on Listing {
+        id
+        title
+        slug
+        bannerImage {
+          url
+        }
+      }
+    }
+  }
   listings {
     id
+    area
+    images {
+      url
+      id
+      width
+      height
+    }
+    bathrooms
+    price
+    rooms
+    slug
+    address
+    propertyType
+    title
     bannerImage {
       url
     }

@@ -827,6 +827,7 @@ export type ImageTransformationInput = {
 
 export type Listing = Node & {
   __typename?: 'Listing';
+  address: Scalars['String'];
   area: Scalars['String'];
   /** 7:4 ratio recommended */
   bannerImage?: Maybe<Asset>;
@@ -864,6 +865,7 @@ export type Listing = Node & {
   /** Number of Rooms */
   rooms: Scalars['Int'];
   scheduledIn: Array<ScheduledOperation>;
+  siteSetting?: Maybe<SiteSetting>;
   slug: Scalars['String'];
   /** System stage field */
   stage: Stage;
@@ -943,6 +945,11 @@ export type ListingScheduledInArgs = {
 };
 
 
+export type ListingSiteSettingArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
 export type ListingUpdatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
@@ -970,6 +977,7 @@ export type ListingConnection = {
 };
 
 export type ListingCreateInput = {
+  address: Scalars['String'];
   area: Scalars['String'];
   bannerImage?: InputMaybe<AssetCreateOneInlineInput>;
   bathrooms: Scalars['Int'];
@@ -989,6 +997,7 @@ export type ListingCreateInput = {
   /** propertyType input for default locale (en) */
   propertyType: PropertyType;
   rooms: Scalars['Int'];
+  siteSetting?: InputMaybe<SiteSettingCreateOneInlineInput>;
   /** slug input for default locale (en) */
   slug: Scalars['String'];
   /** title input for default locale (en) */
@@ -1052,6 +1061,25 @@ export type ListingManyWhereInput = {
   OR?: InputMaybe<Array<ListingWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  address_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  address_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  address_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  address_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  address_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  address_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  address_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  address_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  address_starts_with?: InputMaybe<Scalars['String']>;
   area?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   area_contains?: InputMaybe<Scalars['String']>;
@@ -1178,6 +1206,7 @@ export type ListingManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  siteSetting?: InputMaybe<SiteSettingWhereInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1197,6 +1226,8 @@ export type ListingManyWhereInput = {
 };
 
 export enum ListingOrderByInput {
+  AddressAsc = 'address_ASC',
+  AddressDesc = 'address_DESC',
   AreaAsc = 'area_ASC',
   AreaDesc = 'area_DESC',
   BathroomsAsc = 'bathrooms_ASC',
@@ -1228,6 +1259,7 @@ export enum ListingOrderByInput {
 }
 
 export type ListingUpdateInput = {
+  address?: InputMaybe<Scalars['String']>;
   area?: InputMaybe<Scalars['String']>;
   bannerImage?: InputMaybe<AssetUpdateOneInlineInput>;
   bathrooms?: InputMaybe<Scalars['Int']>;
@@ -1246,6 +1278,7 @@ export type ListingUpdateInput = {
   /** propertyType input for default locale (en) */
   propertyType?: InputMaybe<PropertyType>;
   rooms?: InputMaybe<Scalars['Int']>;
+  siteSetting?: InputMaybe<SiteSettingUpdateOneInlineInput>;
   /** slug input for default locale (en) */
   slug?: InputMaybe<Scalars['String']>;
   /** title input for default locale (en) */
@@ -1295,6 +1328,7 @@ export type ListingUpdateManyInlineInput = {
 };
 
 export type ListingUpdateManyInput = {
+  address?: InputMaybe<Scalars['String']>;
   area?: InputMaybe<Scalars['String']>;
   bathrooms?: InputMaybe<Scalars['Int']>;
   /** body input for default locale (en) */
@@ -1393,6 +1427,25 @@ export type ListingWhereInput = {
   OR?: InputMaybe<Array<ListingWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  address_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  address_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  address_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  address_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  address_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  address_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  address_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  address_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  address_starts_with?: InputMaybe<Scalars['String']>;
   area?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   area_contains?: InputMaybe<Scalars['String']>;
@@ -1574,6 +1627,7 @@ export type ListingWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  siteSetting?: InputMaybe<SiteSettingWhereInput>;
   slug?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   slug_contains?: InputMaybe<Scalars['String']>;
@@ -1673,6 +1727,8 @@ export type Mutation = {
   createListing?: Maybe<Listing>;
   /** Create one scheduledRelease */
   createScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Create one siteSetting */
+  createSiteSetting?: Maybe<SiteSetting>;
   /** Delete one asset from _all_ existing stages. Returns deleted document. */
   deleteAsset?: Maybe<Asset>;
   /** Delete one listing from _all_ existing stages. Returns deleted document. */
@@ -1691,10 +1747,19 @@ export type Mutation = {
   deleteManyListings: BatchPayload;
   /** Delete many Listing documents, return deleted documents */
   deleteManyListingsConnection: ListingConnection;
+  /**
+   * Delete many SiteSetting documents
+   * @deprecated Please use the new paginated many mutation (deleteManySiteSettingsConnection)
+   */
+  deleteManySiteSettings: BatchPayload;
+  /** Delete many SiteSetting documents, return deleted documents */
+  deleteManySiteSettingsConnection: SiteSettingConnection;
   /** Delete and return scheduled operation */
   deleteScheduledOperation?: Maybe<ScheduledOperation>;
   /** Delete one scheduledRelease from _all_ existing stages. Returns deleted document. */
   deleteScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Delete one siteSetting from _all_ existing stages. Returns deleted document. */
+  deleteSiteSetting?: Maybe<SiteSetting>;
   /** Publish one asset */
   publishAsset?: Maybe<Asset>;
   /** Publish one listing */
@@ -1713,14 +1778,27 @@ export type Mutation = {
   publishManyListings: BatchPayload;
   /** Publish many Listing documents */
   publishManyListingsConnection: ListingConnection;
+  /**
+   * Publish many SiteSetting documents
+   * @deprecated Please use the new paginated many mutation (publishManySiteSettingsConnection)
+   */
+  publishManySiteSettings: BatchPayload;
+  /** Publish many SiteSetting documents */
+  publishManySiteSettingsConnection: SiteSettingConnection;
+  /** Publish one siteSetting */
+  publishSiteSetting?: Maybe<SiteSetting>;
   /** Schedule to publish one asset */
   schedulePublishAsset?: Maybe<Asset>;
   /** Schedule to publish one listing */
   schedulePublishListing?: Maybe<Listing>;
+  /** Schedule to publish one siteSetting */
+  schedulePublishSiteSetting?: Maybe<SiteSetting>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishAsset?: Maybe<Asset>;
   /** Unpublish one listing from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishListing?: Maybe<Listing>;
+  /** Unpublish one siteSetting from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  scheduleUnpublishSiteSetting?: Maybe<SiteSetting>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishAsset?: Maybe<Asset>;
   /** Unpublish one listing from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -1739,6 +1817,15 @@ export type Mutation = {
   unpublishManyListings: BatchPayload;
   /** Find many Listing documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyListingsConnection: ListingConnection;
+  /**
+   * Unpublish many SiteSetting documents
+   * @deprecated Please use the new paginated many mutation (unpublishManySiteSettingsConnection)
+   */
+  unpublishManySiteSettings: BatchPayload;
+  /** Find many SiteSetting documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManySiteSettingsConnection: SiteSettingConnection;
+  /** Unpublish one siteSetting from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishSiteSetting?: Maybe<SiteSetting>;
   /** Update one asset */
   updateAsset?: Maybe<Asset>;
   /** Update one listing */
@@ -1757,12 +1844,23 @@ export type Mutation = {
   updateManyListings: BatchPayload;
   /** Update many Listing documents */
   updateManyListingsConnection: ListingConnection;
+  /**
+   * Update many siteSettings
+   * @deprecated Please use the new paginated many mutation (updateManySiteSettingsConnection)
+   */
+  updateManySiteSettings: BatchPayload;
+  /** Update many SiteSetting documents */
+  updateManySiteSettingsConnection: SiteSettingConnection;
   /** Update one scheduledRelease */
   updateScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Update one siteSetting */
+  updateSiteSetting?: Maybe<SiteSetting>;
   /** Upsert one asset */
   upsertAsset?: Maybe<Asset>;
   /** Upsert one listing */
   upsertListing?: Maybe<Listing>;
+  /** Upsert one siteSetting */
+  upsertSiteSetting?: Maybe<SiteSetting>;
 };
 
 
@@ -1778,6 +1876,11 @@ export type MutationCreateListingArgs = {
 
 export type MutationCreateScheduledReleaseArgs = {
   data: ScheduledReleaseCreateInput;
+};
+
+
+export type MutationCreateSiteSettingArgs = {
+  data: SiteSettingCreateInput;
 };
 
 
@@ -1821,6 +1924,21 @@ export type MutationDeleteManyListingsConnectionArgs = {
 };
 
 
+export type MutationDeleteManySiteSettingsArgs = {
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
+export type MutationDeleteManySiteSettingsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
 export type MutationDeleteScheduledOperationArgs = {
   where: ScheduledOperationWhereUniqueInput;
 };
@@ -1828,6 +1946,11 @@ export type MutationDeleteScheduledOperationArgs = {
 
 export type MutationDeleteScheduledReleaseArgs = {
   where: ScheduledReleaseWhereUniqueInput;
+};
+
+
+export type MutationDeleteSiteSettingArgs = {
+  where: SiteSettingWhereUniqueInput;
 };
 
 
@@ -1897,6 +2020,30 @@ export type MutationPublishManyListingsConnectionArgs = {
 };
 
 
+export type MutationPublishManySiteSettingsArgs = {
+  to?: Array<Stage>;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
+export type MutationPublishManySiteSettingsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  from?: InputMaybe<Stage>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  to?: Array<Stage>;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
+export type MutationPublishSiteSettingArgs = {
+  to?: Array<Stage>;
+  where: SiteSettingWhereUniqueInput;
+};
+
+
 export type MutationSchedulePublishAssetArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']>;
@@ -1919,6 +2066,14 @@ export type MutationSchedulePublishListingArgs = {
 };
 
 
+export type MutationSchedulePublishSiteSettingArgs = {
+  releaseAt?: InputMaybe<Scalars['DateTime']>;
+  releaseId?: InputMaybe<Scalars['String']>;
+  to?: Array<Stage>;
+  where: SiteSettingWhereUniqueInput;
+};
+
+
 export type MutationScheduleUnpublishAssetArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
@@ -1936,6 +2091,14 @@ export type MutationScheduleUnpublishListingArgs = {
   releaseId?: InputMaybe<Scalars['String']>;
   unpublishBase?: InputMaybe<Scalars['Boolean']>;
   where: ListingWhereUniqueInput;
+};
+
+
+export type MutationScheduleUnpublishSiteSettingArgs = {
+  from?: Array<Stage>;
+  releaseAt?: InputMaybe<Scalars['DateTime']>;
+  releaseId?: InputMaybe<Scalars['String']>;
+  where: SiteSettingWhereUniqueInput;
 };
 
 
@@ -1999,6 +2162,30 @@ export type MutationUnpublishManyListingsConnectionArgs = {
 };
 
 
+export type MutationUnpublishManySiteSettingsArgs = {
+  from?: Array<Stage>;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
+export type MutationUnpublishManySiteSettingsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  from?: Array<Stage>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: InputMaybe<Stage>;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
+export type MutationUnpublishSiteSettingArgs = {
+  from?: Array<Stage>;
+  where: SiteSettingWhereUniqueInput;
+};
+
+
 export type MutationUpdateAssetArgs = {
   data: AssetUpdateInput;
   where: AssetWhereUniqueInput;
@@ -2045,9 +2232,32 @@ export type MutationUpdateManyListingsConnectionArgs = {
 };
 
 
+export type MutationUpdateManySiteSettingsArgs = {
+  data: SiteSettingUpdateManyInput;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
+export type MutationUpdateManySiteSettingsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  data: SiteSettingUpdateManyInput;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SiteSettingManyWhereInput>;
+};
+
+
 export type MutationUpdateScheduledReleaseArgs = {
   data: ScheduledReleaseUpdateInput;
   where: ScheduledReleaseWhereUniqueInput;
+};
+
+
+export type MutationUpdateSiteSettingArgs = {
+  data: SiteSettingUpdateInput;
+  where: SiteSettingWhereUniqueInput;
 };
 
 
@@ -2060,6 +2270,12 @@ export type MutationUpsertAssetArgs = {
 export type MutationUpsertListingArgs = {
   upsert: ListingUpsertInput;
   where: ListingWhereUniqueInput;
+};
+
+
+export type MutationUpsertSiteSettingArgs = {
+  upsert: SiteSettingUpsertInput;
+  where: SiteSettingWhereUniqueInput;
 };
 
 /** An object with an ID */
@@ -2129,6 +2345,14 @@ export type Query = {
   scheduledReleases: Array<ScheduledRelease>;
   /** Retrieve multiple scheduledReleases using the Relay connection interface */
   scheduledReleasesConnection: ScheduledReleaseConnection;
+  /** Retrieve a single siteSetting */
+  siteSetting?: Maybe<SiteSetting>;
+  /** Retrieve document version */
+  siteSettingVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple siteSettings */
+  siteSettings: Array<SiteSetting>;
+  /** Retrieve multiple siteSettings using the Relay connection interface */
+  siteSettingsConnection: SiteSettingConnection;
   /** Retrieve a single user */
   user?: Maybe<User>;
   /** Retrieve multiple users */
@@ -2287,6 +2511,44 @@ export type QueryScheduledReleasesConnectionArgs = {
 };
 
 
+export type QuerySiteSettingArgs = {
+  locales?: Array<Locale>;
+  stage?: Stage;
+  where: SiteSettingWhereUniqueInput;
+};
+
+
+export type QuerySiteSettingVersionArgs = {
+  where: VersionWhereInput;
+};
+
+
+export type QuerySiteSettingsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<SiteSettingOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: Stage;
+  where?: InputMaybe<SiteSettingWhereInput>;
+};
+
+
+export type QuerySiteSettingsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<SiteSettingOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: Stage;
+  where?: InputMaybe<SiteSettingWhereInput>;
+};
+
+
 export type QueryUserArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
@@ -2426,7 +2688,7 @@ export type ScheduledOperationUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ScheduledOperationAffectedDocument = Asset | Listing;
+export type ScheduledOperationAffectedDocument = Asset | Listing | SiteSetting;
 
 export type ScheduledOperationConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
@@ -3337,6 +3599,457 @@ export type ScheduledReleaseWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
+export type SiteSetting = Node & {
+  __typename?: 'SiteSetting';
+  /** The time the document was created */
+  createdAt: Scalars['DateTime'];
+  /** User that created this document */
+  createdBy?: Maybe<User>;
+  /** Get the document in other stages */
+  documentInStages: Array<SiteSetting>;
+  featuredListings: Array<SiteSettingFeaturedListings>;
+  /** List of SiteSetting versions */
+  history: Array<Version>;
+  /** The unique identifier */
+  id: Scalars['ID'];
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  /** User that last published this document */
+  publishedBy?: Maybe<User>;
+  scheduledIn: Array<ScheduledOperation>;
+  /** System stage field */
+  stage: Stage;
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime'];
+  /** User that last updated this document */
+  updatedBy?: Maybe<User>;
+};
+
+
+export type SiteSettingCreatedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type SiteSettingDocumentInStagesArgs = {
+  includeCurrent?: Scalars['Boolean'];
+  inheritLocale?: Scalars['Boolean'];
+  stages?: Array<Stage>;
+};
+
+
+export type SiteSettingFeaturedListingsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type SiteSettingHistoryArgs = {
+  limit?: Scalars['Int'];
+  skip?: Scalars['Int'];
+  stageOverride?: InputMaybe<Stage>;
+};
+
+
+export type SiteSettingPublishedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type SiteSettingScheduledInArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ScheduledOperationWhereInput>;
+};
+
+
+export type SiteSettingUpdatedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+export type SiteSettingConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: SiteSettingWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type SiteSettingConnection = {
+  __typename?: 'SiteSettingConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<SiteSettingEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type SiteSettingCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  featuredListings?: InputMaybe<SiteSettingFeaturedListingsCreateManyInlineInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type SiteSettingCreateManyInlineInput = {
+  /** Connect multiple existing SiteSetting documents */
+  connect?: InputMaybe<Array<SiteSettingWhereUniqueInput>>;
+  /** Create and connect multiple existing SiteSetting documents */
+  create?: InputMaybe<Array<SiteSettingCreateInput>>;
+};
+
+export type SiteSettingCreateOneInlineInput = {
+  /** Connect one existing SiteSetting document */
+  connect?: InputMaybe<SiteSettingWhereUniqueInput>;
+  /** Create and connect one SiteSetting document */
+  create?: InputMaybe<SiteSettingCreateInput>;
+};
+
+/** An edge in a connection. */
+export type SiteSettingEdge = {
+  __typename?: 'SiteSettingEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: SiteSetting;
+};
+
+export type SiteSettingFeaturedListings = Listing;
+
+export type SiteSettingFeaturedListingsConnectInput = {
+  Listing?: InputMaybe<ListingConnectInput>;
+};
+
+export type SiteSettingFeaturedListingsCreateInput = {
+  Listing?: InputMaybe<ListingCreateInput>;
+};
+
+export type SiteSettingFeaturedListingsCreateManyInlineInput = {
+  /** Connect multiple existing SiteSettingFeaturedListings documents */
+  connect?: InputMaybe<Array<SiteSettingFeaturedListingsWhereUniqueInput>>;
+  /** Create and connect multiple existing SiteSettingFeaturedListings documents */
+  create?: InputMaybe<Array<SiteSettingFeaturedListingsCreateInput>>;
+};
+
+export type SiteSettingFeaturedListingsCreateOneInlineInput = {
+  /** Connect one existing SiteSettingFeaturedListings document */
+  connect?: InputMaybe<SiteSettingFeaturedListingsWhereUniqueInput>;
+  /** Create and connect one SiteSettingFeaturedListings document */
+  create?: InputMaybe<SiteSettingFeaturedListingsCreateInput>;
+};
+
+export type SiteSettingFeaturedListingsUpdateInput = {
+  Listing?: InputMaybe<ListingUpdateInput>;
+};
+
+export type SiteSettingFeaturedListingsUpdateManyInlineInput = {
+  /** Connect multiple existing SiteSettingFeaturedListings documents */
+  connect?: InputMaybe<Array<SiteSettingFeaturedListingsConnectInput>>;
+  /** Create and connect multiple SiteSettingFeaturedListings documents */
+  create?: InputMaybe<Array<SiteSettingFeaturedListingsCreateInput>>;
+  /** Delete multiple SiteSettingFeaturedListings documents */
+  delete?: InputMaybe<Array<SiteSettingFeaturedListingsWhereUniqueInput>>;
+  /** Disconnect multiple SiteSettingFeaturedListings documents */
+  disconnect?: InputMaybe<Array<SiteSettingFeaturedListingsWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing SiteSettingFeaturedListings documents */
+  set?: InputMaybe<Array<SiteSettingFeaturedListingsWhereUniqueInput>>;
+  /** Update multiple SiteSettingFeaturedListings documents */
+  update?: InputMaybe<Array<SiteSettingFeaturedListingsUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple SiteSettingFeaturedListings documents */
+  upsert?: InputMaybe<Array<SiteSettingFeaturedListingsUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type SiteSettingFeaturedListingsUpdateManyWithNestedWhereInput = {
+  Listing?: InputMaybe<ListingUpdateManyWithNestedWhereInput>;
+};
+
+export type SiteSettingFeaturedListingsUpdateOneInlineInput = {
+  /** Connect existing SiteSettingFeaturedListings document */
+  connect?: InputMaybe<SiteSettingFeaturedListingsWhereUniqueInput>;
+  /** Create and connect one SiteSettingFeaturedListings document */
+  create?: InputMaybe<SiteSettingFeaturedListingsCreateInput>;
+  /** Delete currently connected SiteSettingFeaturedListings document */
+  delete?: InputMaybe<Scalars['Boolean']>;
+  /** Disconnect currently connected SiteSettingFeaturedListings document */
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  /** Update single SiteSettingFeaturedListings document */
+  update?: InputMaybe<SiteSettingFeaturedListingsUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single SiteSettingFeaturedListings document */
+  upsert?: InputMaybe<SiteSettingFeaturedListingsUpsertWithNestedWhereUniqueInput>;
+};
+
+export type SiteSettingFeaturedListingsUpdateWithNestedWhereUniqueInput = {
+  Listing?: InputMaybe<ListingUpdateWithNestedWhereUniqueInput>;
+};
+
+export type SiteSettingFeaturedListingsUpsertWithNestedWhereUniqueInput = {
+  Listing?: InputMaybe<ListingUpsertWithNestedWhereUniqueInput>;
+};
+
+export type SiteSettingFeaturedListingsWhereInput = {
+  Listing?: InputMaybe<ListingWhereInput>;
+};
+
+export type SiteSettingFeaturedListingsWhereUniqueInput = {
+  Listing?: InputMaybe<ListingWhereUniqueInput>;
+};
+
+/** Identifies documents */
+export type SiteSettingManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<SiteSettingWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<SiteSettingWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<SiteSettingWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values that are not equal to given value. */
+  id_not?: InputMaybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+export enum SiteSettingOrderByInput {
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC'
+}
+
+export type SiteSettingUpdateInput = {
+  featuredListings?: InputMaybe<SiteSettingFeaturedListingsUpdateManyInlineInput>;
+};
+
+export type SiteSettingUpdateManyInlineInput = {
+  /** Connect multiple existing SiteSetting documents */
+  connect?: InputMaybe<Array<SiteSettingConnectInput>>;
+  /** Create and connect multiple SiteSetting documents */
+  create?: InputMaybe<Array<SiteSettingCreateInput>>;
+  /** Delete multiple SiteSetting documents */
+  delete?: InputMaybe<Array<SiteSettingWhereUniqueInput>>;
+  /** Disconnect multiple SiteSetting documents */
+  disconnect?: InputMaybe<Array<SiteSettingWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing SiteSetting documents */
+  set?: InputMaybe<Array<SiteSettingWhereUniqueInput>>;
+  /** Update multiple SiteSetting documents */
+  update?: InputMaybe<Array<SiteSettingUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple SiteSetting documents */
+  upsert?: InputMaybe<Array<SiteSettingUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type SiteSettingUpdateManyInput = {
+  /** No fields in updateMany data input */
+  _?: InputMaybe<Scalars['String']>;
+};
+
+export type SiteSettingUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: SiteSettingUpdateManyInput;
+  /** Document search */
+  where: SiteSettingWhereInput;
+};
+
+export type SiteSettingUpdateOneInlineInput = {
+  /** Connect existing SiteSetting document */
+  connect?: InputMaybe<SiteSettingWhereUniqueInput>;
+  /** Create and connect one SiteSetting document */
+  create?: InputMaybe<SiteSettingCreateInput>;
+  /** Delete currently connected SiteSetting document */
+  delete?: InputMaybe<Scalars['Boolean']>;
+  /** Disconnect currently connected SiteSetting document */
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  /** Update single SiteSetting document */
+  update?: InputMaybe<SiteSettingUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single SiteSetting document */
+  upsert?: InputMaybe<SiteSettingUpsertWithNestedWhereUniqueInput>;
+};
+
+export type SiteSettingUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: SiteSettingUpdateInput;
+  /** Unique document search */
+  where: SiteSettingWhereUniqueInput;
+};
+
+export type SiteSettingUpsertInput = {
+  /** Create document if it didn't exist */
+  create: SiteSettingCreateInput;
+  /** Update document if it exists */
+  update: SiteSettingUpdateInput;
+};
+
+export type SiteSettingUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: SiteSettingUpsertInput;
+  /** Unique document search */
+  where: SiteSettingWhereUniqueInput;
+};
+
+/** Identifies documents */
+export type SiteSettingWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<SiteSettingWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<SiteSettingWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<SiteSettingWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values that are not equal to given value. */
+  id_not?: InputMaybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+/** References SiteSetting record uniquely */
+export type SiteSettingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 /** Stage system enumeration */
 export enum Stage {
   /** The Draft is the default stage for all your content. */
@@ -3817,13 +4530,39 @@ export enum _SystemDateTimeFieldVariation {
 export type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IndexPageQuery = { __typename?: 'Query', listings: Array<{ __typename?: 'Listing', id: string, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> };
+export type IndexPageQuery = { __typename?: 'Query', siteSetting?: { __typename?: 'SiteSetting', featuredListings: Array<{ __typename?: 'Listing', id: string, title: string, slug: string, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> } | null | undefined, listings: Array<{ __typename?: 'Listing', id: string, area: string, bathrooms: number, price?: string | null | undefined, rooms: number, slug: string, address: string, propertyType: PropertyType, title: string, images: Array<{ __typename?: 'Asset', url: string, id: string, width?: number | null | undefined, height?: number | null | undefined }>, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> };
 
 
 export const IndexPageDocument = gql`
     query IndexPage {
+  siteSetting(where: {id: "ckxe6rk5korc10d57wbajch88"}) {
+    featuredListings {
+      ... on Listing {
+        id
+        title
+        slug
+        bannerImage {
+          url
+        }
+      }
+    }
+  }
   listings {
     id
+    area
+    images {
+      url
+      id
+      width
+      height
+    }
+    bathrooms
+    price
+    rooms
+    slug
+    address
+    propertyType
+    title
     bannerImage {
       url
     }

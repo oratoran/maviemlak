@@ -8,4 +8,26 @@ module.exports = {
   images: {
     domains: ["media.graphcms.com"],
   },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      use: [
+        {
+          loader: "@svgr/webpack",
+          options: {
+            svgoConfig: {
+              plugins: [
+                {
+                  name: "removeViewBox",
+                  active: false,
+                  removeViewBox: false,
+                },
+              ],
+            },
+          },
+        },
+      ],
+    });
+    return config;
+  },
 };
