@@ -26,6 +26,7 @@ query IndexPage {
     slug
     address
     propertyType
+    buildingType
     title
     bannerImage {
       url

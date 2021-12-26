@@ -1,0 +1,32 @@
+query ListingPath {
+  listings {
+    slug
+    id
+  }
+}
+
+query ListingPage($id: ID!) {
+  listing(where: { id: $id }) {
+    address
+    id
+    images {
+      handle
+      url
+      width
+      height
+    }
+    otherProperties
+    price
+    propertyType
+    publishedAt
+    area
+    rooms
+    title
+    bathrooms
+    body {
+      html
+    }
+    buildingType
+    facilities
+  }
+}

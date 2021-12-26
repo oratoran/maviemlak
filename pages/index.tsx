@@ -50,7 +50,7 @@ const Home: NextPage<{
           </Box>
         ))}
       </Carousel>
-      <Container maxW="container.xl" py="8">
+      <Container maxW="container.lg" py="8">
         <Flex justifyContent="space-between" mb="4">
           <Heading as="h2">
             <FormattedMessage defaultMessage="Listings" id="listings" />
@@ -71,6 +71,7 @@ const Home: NextPage<{
               propertyType={item.propertyType}
               title={item.title}
               slug={item.slug}
+              buildingType={item.buildingType}
             />
           ))}
         </Flex>

@@ -4530,7 +4530,19 @@ export enum _SystemDateTimeFieldVariation {
 export type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IndexPageQuery = { __typename?: 'Query', siteSetting?: { __typename?: 'SiteSetting', featuredListings: Array<{ __typename?: 'Listing', id: string, title: string, slug: string, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> } | null | undefined, listings: Array<{ __typename?: 'Listing', id: string, area: string, bathrooms: number, price?: string | null | undefined, rooms: number, slug: string, address: string, propertyType: PropertyType, title: string, images: Array<{ __typename?: 'Asset', url: string, id: string, width?: number | null | undefined, height?: number | null | undefined }>, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> };
+export type IndexPageQuery = { __typename?: 'Query', siteSetting?: { __typename?: 'SiteSetting', featuredListings: Array<{ __typename?: 'Listing', id: string, title: string, slug: string, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> } | null | undefined, listings: Array<{ __typename?: 'Listing', id: string, area: string, bathrooms: number, price?: string | null | undefined, rooms: number, slug: string, address: string, propertyType: PropertyType, buildingType: string, title: string, images: Array<{ __typename?: 'Asset', url: string, id: string, width?: number | null | undefined, height?: number | null | undefined }>, bannerImage?: { __typename?: 'Asset', url: string } | null | undefined }> };
+
+export type ListingPathQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListingPathQuery = { __typename?: 'Query', listings: Array<{ __typename?: 'Listing', slug: string, id: string }> };
+
+export type ListingPageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ListingPageQuery = { __typename?: 'Query', listing?: { __typename?: 'Listing', address: string, id: string, otherProperties: Array<string>, price?: string | null | undefined, propertyType: PropertyType, publishedAt?: any | null | undefined, area: string, rooms: number, title: string, bathrooms: number, buildingType: string, facilities: string, images: Array<{ __typename?: 'Asset', handle: string, url: string, width?: number | null | undefined, height?: number | null | undefined }>, body?: { __typename?: 'RichText', html: string } | null | undefined } | null | undefined };
 
 
 export const IndexPageDocument = gql`
@@ -4562,6 +4574,7 @@ export const IndexPageDocument = gql`
     slug
     address
     propertyType
+    buildingType
     title
     bannerImage {
       url
@@ -4596,3 +4609,93 @@ export function useIndexPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type IndexPageQueryHookResult = ReturnType<typeof useIndexPageQuery>;
 export type IndexPageLazyQueryHookResult = ReturnType<typeof useIndexPageLazyQuery>;
 export type IndexPageQueryResult = Apollo.QueryResult<IndexPageQuery, IndexPageQueryVariables>;
+export const ListingPathDocument = gql`
+    query ListingPath {
+  listings {
+    slug
+    id
+  }
+}
+    `;
+
+/**
+ * __useListingPathQuery__
+ *
+ * To run a query within a React component, call `useListingPathQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListingPathQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListingPathQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListingPathQuery(baseOptions?: Apollo.QueryHookOptions<ListingPathQuery, ListingPathQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListingPathQuery, ListingPathQueryVariables>(ListingPathDocument, options);
+      }
+export function useListingPathLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListingPathQuery, ListingPathQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListingPathQuery, ListingPathQueryVariables>(ListingPathDocument, options);
+        }
+export type ListingPathQueryHookResult = ReturnType<typeof useListingPathQuery>;
+export type ListingPathLazyQueryHookResult = ReturnType<typeof useListingPathLazyQuery>;
+export type ListingPathQueryResult = Apollo.QueryResult<ListingPathQuery, ListingPathQueryVariables>;
+export const ListingPageDocument = gql`
+    query ListingPage($id: ID!) {
+  listing(where: {id: $id}) {
+    address
+    id
+    images {
+      handle
+      url
+      width
+      height
+    }
+    otherProperties
+    price
+    propertyType
+    publishedAt
+    area
+    rooms
+    title
+    bathrooms
+    body {
+      html
+    }
+    buildingType
+    facilities
+  }
+}
+    `;
+
+/**
+ * __useListingPageQuery__
+ *
+ * To run a query within a React component, call `useListingPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListingPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListingPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useListingPageQuery(baseOptions: Apollo.QueryHookOptions<ListingPageQuery, ListingPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListingPageQuery, ListingPageQueryVariables>(ListingPageDocument, options);
+      }
+export function useListingPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListingPageQuery, ListingPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListingPageQuery, ListingPageQueryVariables>(ListingPageDocument, options);
+        }
+export type ListingPageQueryHookResult = ReturnType<typeof useListingPageQuery>;
+export type ListingPageLazyQueryHookResult = ReturnType<typeof useListingPageLazyQuery>;
+export type ListingPageQueryResult = Apollo.QueryResult<ListingPageQuery, ListingPageQueryVariables>;
