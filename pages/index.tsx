@@ -2,7 +2,7 @@ import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { Layout } from "components/Layout";
 import { client } from "utils/apollo-client";
-import { Asset, IndexPageDocument, IndexPageQuery } from "generated/graphql";
+import { IndexPageDocument, IndexPageQuery } from "generated/graphql";
 import { Carousel } from "react-responsive-carousel";
 import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
@@ -16,9 +16,13 @@ const Home: NextPage<{
   return (
     <Layout title="Mavi Emlak" description="Description">
       <Carousel>
-        {data.siteSetting?.featuredListings.map((item) => (
-          <Box key={item.id} h="xl" position="relative">
-            <Image src={item.bannerImage?.url as string} layout="fill" alt="" />
+        {data.siteSetting?.settingsPage?.featuredListings?.map((item) => (
+          <Box key={item?.id} h="xl" position="relative">
+            <Image
+              src={item?.acf?.bannerImage?.uri as string}
+              layout="fill"
+              alt=""
+            />
             <Box
               position="absolute"
               right={0}
@@ -33,7 +37,7 @@ const Home: NextPage<{
               p="12"
               pb="20"
             >
-              <NextLink href={`/listings/${item.slug}`} passHref>
+              <NextLink href={`/listings/${item?.slug}`} passHref>
                 <Link
                   maxW="60%"
                   textAlign="right"
@@ -42,7 +46,7 @@ const Home: NextPage<{
                   }}
                 >
                   <Heading as="h2" color="white">
-                    {item.title}
+                    {item?.title}
                   </Heading>
                 </Link>
               </NextLink>
@@ -62,16 +66,19 @@ const Home: NextPage<{
           </NextLink>
         </Flex>
         <Flex>
-          {data.listings.map((item) => (
+          {data.allListing?.nodes?.map((item) => (
             <ListingItem
-              key={item.id}
-              address={item.address}
-              image={item.images[0] as Asset}
-              price={item.price as string}
-              propertyType={item.propertyType}
-              title={item.title}
-              slug={item.slug}
-              buildingType={item.buildingType}
+              key={item?.id}
+              address={item?.acf?.address as string}
+              image={{
+                url: item?.acf?.displayImage?.uri as string,
+                ...item?.acf?.displayImage?.mediaDetails,
+              }}
+              price={item?.acf?.price as string}
+              propertyType={item?.acf?.propertyType as string}
+              title={item?.title as string}
+              slug={item?.slug as string}
+              buildingType={item?.acf?.buildingType as string}
             />
           ))}
         </Flex>

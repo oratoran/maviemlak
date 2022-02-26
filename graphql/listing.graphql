@@ -1,32 +1,66 @@
 query ListingPath {
-  listings {
+  allListing {
+    nodes {
+      id
+      slug
+    }
+  }
+}
+
+query ListingPage($id: ID!) {
+  listing(id: $id) {
+    acf {
+      address
+      area
+      bannerImage {
+        uri
+        mediaDetails {
+          height
+          width
+        }
+      }
+      bathrooms
+      buildingType
+      facilities
+      price
+      rooms
+    }
+    propertyImages {
+      uri
+      mediaDetails {
+        width
+        height
+      }
+    }
+    content
+    title
     slug
     id
   }
 }
 
-query ListingPage($id: ID!) {
-  listing(where: { id: $id }) {
-    address
-    id
-    images {
-      handle
-      url
-      width
-      height
-    }
-    otherProperties
-    price
-    propertyType
-    publishedAt
-    area
-    rooms
-    title
-    bathrooms
-    body {
-      html
-    }
-    buildingType
-    facilities
-  }
-}
+# query ListingPage($id: ID!) {
+#   listing(where: { id: $id }) {
+#     address
+#     id
+#     images {
+#       handle
+#       url
+#       width
+#       height
+#     }
+#     otherProperties
+#     price
+#     propertyType
+#     publishedAt
+#     area
+#     rooms
+#     title
+#     bathrooms
+#     body {
+#       html
+#     }
+#     buildingType
+#     facilities
+#   }
+# }

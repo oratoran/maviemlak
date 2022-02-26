@@ -1,35 +1,45 @@
 query IndexPage {
-  siteSetting(where: { id: "ckxe6rk5korc10d57wbajch88" }) {
-    featuredListings {
-      ... on Listing {
-        id
-        title
-        slug
-        bannerImage {
-          url
+  siteSetting(id: "settings", idType: URI) {
+    settingsPage {
+      featuredListings {
+        ... on Listing {
+          id
+          slug
+          title
+          acf {
+            bannerImage {
+              uri
+              mediaDetails {
+                width
+                height
+              }
+            }
+          }
         }
       }
     }
   }
-  listings {
-    id
-    area
-    images {
-      url
+  allListing {
+    nodes {
       id
-      width
-      height
-    }
-    bathrooms
-    price
-    rooms
-    slug
-    address
-    propertyType
-    buildingType
-    title
-    bannerImage {
-      url
+      title
+      slug
+      acf {
+        address
+        area
+        bathrooms
+        buildingType
+        displayImage {
+          uri
+          mediaDetails {
+            height
+            width
+          }
+        }
+        facilities
+        price
+        rooms
+      }
     }
   }
 }

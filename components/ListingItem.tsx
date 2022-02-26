@@ -1,16 +1,16 @@
 import NextLink from "next/link";
 import { Box, Flex, Heading, Text, Link, Tag } from "@chakra-ui/react";
-import { Asset, PropertyType } from "generated/graphql";
+import { MediaDetails } from "generated/graphql";
 import Image from "next/image";
 import { useIntl, defineMessages } from "react-intl";
 import { BathtubIcon, BedIcon, MapPinIcon } from "icons";
 
 export interface ListingItemProps {
   title: string;
-  image: Asset;
+  image: MediaDetails & { url: string };
   price: string;
   address: string;
-  propertyType: PropertyType;
+  propertyType: string;
   slug: string;
   buildingType: string;
 }
@@ -82,11 +82,11 @@ export const ListingItem: React.FC<ListingItemProps> = ({
           <Tag
             size="lg"
             colorScheme={
-              propertyType === PropertyType.Rent ? "yellow" : "green"
+              propertyType === "RENT" ? "yellow" : "green"
             }
             variant="subtle"
           >
-            {propertyType === PropertyType.Rent
+            {propertyType === "RENT"
               ? intl.formatMessage(propertyTypeLocales.forRent)
               : intl.formatMessage(propertyTypeLocales.forSale)}
           </Tag>
