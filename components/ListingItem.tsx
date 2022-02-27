@@ -7,7 +7,7 @@ import { BathtubIcon, BedIcon, MapPinIcon } from "icons";
 
 export interface ListingItemProps {
   title: string;
-  image: MediaDetails & { url: string };
+  image: MediaDetails & { url: string; placeholder?: string | null; mimeType: string };
   price: string;
   address: string;
   propertyType: string;
@@ -55,6 +55,8 @@ export const ListingItem: React.FC<ListingItemProps> = ({
         layout="responsive"
         width={image.width || 400}
         height={image.height || 300}
+        placeholder={image.placeholder ? "blur" : "empty"}
+        blurDataURL={`data:${image.mimeType}; base64, ${image.placeholder}`}
       />
       <Box p="3" pb="4">
         <Heading

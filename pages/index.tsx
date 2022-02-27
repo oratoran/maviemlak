@@ -19,7 +19,7 @@ const Home: NextPage<{
         {data.siteSetting?.settingsPage?.featuredListings?.map((item) => (
           <Box key={item?.id} h="xl" position="relative">
             <Image
-              src={item?.acf?.bannerImage?.uri as string}
+              src={item?.acf?.bannerImage?.sourceUrl as string}
               layout="fill"
               alt=""
             />
@@ -71,11 +71,13 @@ const Home: NextPage<{
               key={item?.id}
               address={item?.acf?.address as string}
               image={{
-                url: item?.acf?.displayImage?.uri as string,
+                url: item?.acf?.displayImage?.sourceUrl as string,
                 ...item?.acf?.displayImage?.mediaDetails,
+                placeholder: item?.acf?.displayImage?.blurredPreview,
+                mimeType: item?.acf?.displayImage?.mimeType as string
               }}
               price={item?.acf?.price as string}
-              propertyType={item?.acf?.propertyType as string}
+              propertyType={item?.acf?.propertytype as string}
               title={item?.title as string}
               slug={item?.slug as string}
               buildingType={item?.acf?.buildingType as string}

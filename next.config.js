@@ -6,7 +6,7 @@ module.exports = {
     defaultLocale: "en-US",
   },
   images: {
-    domains: ["media.graphcms.com"],
+    domains: ["maviemlak.local"],
   },
   webpack(config) {
     config.module.rules.push({

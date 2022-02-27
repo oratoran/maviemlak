@@ -14544,6 +14544,18 @@
             "deprecationReason": null
           },
           {
+            "name": "blurredPreview",
+            "description": "Base64 encoded preview",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "caption",
             "description": "The caption for the resource",
             "args": [
@@ -15678,6 +15690,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "BLURRED_PREVIEW",
+            "description": "MediaItem with the blurred-preview size",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "LARGE",
             "description": "MediaItem with the large size",

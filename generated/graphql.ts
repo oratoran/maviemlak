@@ -2657,6 +2657,8 @@ export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNo
   authorDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']>;
+  /** Base64 encoded preview */
+  blurredPreview?: Maybe<Scalars['String']>;
   /** The caption for the resource */
   caption?: Maybe<Scalars['String']>;
   /** Connection between the HierarchicalContentNode type and the ContentNode type */
@@ -2887,6 +2889,8 @@ export type MediaItemMeta = {
 
 /** The size of the media item object. */
 export enum MediaItemSizeEnum {
+  /** MediaItem with the blurred-preview size */
+  BlurredPreview = 'BLURRED_PREVIEW',
   /** MediaItem with the large size */
   Large = 'LARGE',
   /** MediaItem with the medium size */
@@ -9107,7 +9111,7 @@ export type WritingSettings = {
 export type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IndexPageQuery = { __typename?: 'RootQuery', siteSetting?: { __typename?: 'SiteSetting', settingsPage?: { __typename?: 'SiteSetting_Settingspage', featuredListings?: Array<{ __typename?: 'Listing', id: string, slug?: string | null | undefined, title?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', bannerImage?: { __typename?: 'MediaItem', uri?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined, allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, title?: string | null | undefined, slug?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, displayImage?: { __typename?: 'MediaItem', uri?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type IndexPageQuery = { __typename?: 'RootQuery', siteSetting?: { __typename?: 'SiteSetting', settingsPage?: { __typename?: 'SiteSetting_Settingspage', featuredListings?: Array<{ __typename?: 'Listing', id: string, slug?: string | null | undefined, title?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', bannerImage?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined, allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, title?: string | null | undefined, slug?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, displayImage?: { __typename?: 'MediaItem', mimeType?: string | null | undefined, blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type ListingPathQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9133,7 +9137,7 @@ export const IndexPageDocument = gql`
           title
           acf {
             bannerImage {
-              uri
+              sourceUrl
               mediaDetails {
                 width
                 height
@@ -9154,8 +9158,11 @@ export const IndexPageDocument = gql`
         area
         bathrooms
         buildingType
+        propertytype
         displayImage {
-          uri
+          mimeType
+          blurredPreview
+          sourceUrl
           mediaDetails {
             height
             width

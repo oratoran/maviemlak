@@ -8,7 +8,7 @@ query IndexPage {
           title
           acf {
             bannerImage {
-              uri
+              sourceUrl
               mediaDetails {
                 width
                 height
@@ -29,8 +29,11 @@ query IndexPage {
         area
         bathrooms
         buildingType
+        propertytype
         displayImage {
-          uri
+          mimeType
+          blurredPreview
+          sourceUrl
           mediaDetails {
             height
             width
