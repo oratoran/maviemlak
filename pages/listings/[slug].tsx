@@ -1,11 +1,10 @@
-import { Box, Container, Flex, Heading, HStack, Tag } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, HStack, Tag, Text } from "@chakra-ui/react";
 import { Layout } from "components/Layout";
 import {
   ListingPageDocument,
   ListingPageQuery,
   ListingPathDocument,
   ListingPathQuery,
-  PropertyType,
 } from "generated/graphql";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
@@ -15,6 +14,15 @@ import { createCustomUrlIdIndex, getUrlCache } from "utils/urlidcache";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useIntl } from "react-intl";
 import { propertyTypeLocales } from "components/ListingItem";
+import { ListingProperty } from "components/ListingProperty";
+import { MapPinIcon } from "icons";
+import { defineMessages } from "@formatjs/intl";
+
+const listingPropertyTitles = defineMessages({
+  address: {
+    defaultMessage: 'Address',
+  }
+})
 
 const ListingPage: NextPage<{
   data: ListingPageQuery;
@@ -25,19 +33,21 @@ const ListingPage: NextPage<{
   if (!listing) return null;
 
   return (
-    <Layout title={listing.title} description="desc">
+    <Layout title={listing.title as string} description="desc">
       <Container w="100%" maxW={"container.xl"} mt="28">
         <Flex>
           <Box w="50%">
             <Carousel>
-              {listing.images.map((image, i) => (
+              {listing.propertyImages?.map((image, i) => (
                 <Flex key={i} align="center" h="100%" bg="gray.100">
                   <Box w="100%">
                     <Image
-                      src={image.url}
+                      src={image?.sourceUrl as string}
                       layout="responsive"
-                      width={image.width || 400}
-                      height={400}
+                      width={image?.mediaDetails?.width || 600}
+                      height={600}
+                      placeholder={image?.blurredPreview ? 'blur' : 'empty'}
+                      blurDataURL={image?.blurredPreview as string}
                       alt=""
                     />
                   </Box>
@@ -49,25 +59,36 @@ const ListingPage: NextPage<{
             <Heading as="h1">{listing.title}</Heading>
             <HStack spacing="4" mt="4">
               <Heading as="h2" fontSize="xl" color="gray.800">
-                {listing.price} TRY
+                {listing.acf?.price} TRY
               </Heading>
               <Tag
                 size="lg"
                 colorScheme={
-                  listing.propertyType === PropertyType.Rent
+                  listing.acf?.propertytype ==='RENT'
                     ? "yellow"
                     : "green"
                 }
                 variant="subtle"
               >
-                {listing.propertyType === PropertyType.Rent
+                {listing.acf?.propertytype === 'RENT'
                   ? intl.formatMessage(propertyTypeLocales.forRent)
                   : intl.formatMessage(propertyTypeLocales.forSale)}
               </Tag>
               <Tag size="lg" ml="2">
-                {listing.buildingType}
+                {listing.acf?.buildingType}
               </Tag>
             </HStack>
+            <Text mt="4">
+              {listing.acf?.description}
+            </Text>
+          </Box>
+        </Flex>
+        <Flex mt="12">
+          <Box w="60%" pr="4">
+            <div dangerouslySetInnerHTML={{ __html: listing.content as string }} />
+          </Box>
+          <Box w="40%">
+            <ListingProperty icon={<MapPinIcon />} title={intl.formatMessage(listingPropertyTitles.address)} value={listing.acf?.address as string}  />
           </Box>
         </Flex>
       </Container>
@@ -98,20 +119,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
     query: ListingPathDocument,
   });
 
-  const paths = data.listings.map((item) => ({
+  const paths = data.allListing?.nodes?.map((item) => ({
     params: {
-      slug: item.slug,
-      id: item.id,
+      slug: item?.slug as string,
+      id: item?.id as string,
     },
-  }));
+  })) || [];
 
-  const urlCache = data.listings.reduce<{ [x: string]: string }>(
+  const urlCache = data.allListing?.nodes?.reduce<{ [x: string]: string }>(
     (acc, curr) => {
-      acc[curr.slug] = curr.id;
+      acc[(curr?.slug as string)] = curr?.id as string;
       return acc;
     },
     {}
-  );
+  ) || {};
 
   await createCustomUrlIdIndex("listings", urlCache);
 

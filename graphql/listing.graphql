@@ -10,10 +10,11 @@ query ListingPath {
 query ListingPage($id: ID!) {
   listing(id: $id) {
     acf {
+      description
       address
       area
       bannerImage {
-        uri
+        sourceUrl
         mediaDetails {
           height
           width
@@ -21,12 +22,14 @@ query ListingPage($id: ID!) {
       }
       bathrooms
       buildingType
+      propertytype
       facilities
       price
       rooms
     }
     propertyImages {
-      uri
+      sourceUrl
+      blurredPreview
       mediaDetails {
         width
         height

@@ -2618,6 +2618,7 @@ export type Listing_Acf = AcfFieldGroup & {
   bathrooms?: Maybe<Scalars['Float']>;
   /** Apartment, villa etc */
   buildingType?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   /** Square image */
   displayImage?: Maybe<MediaItem>;
   /** Eg: 3 Bed Rooms, 2 Bathrooms */
@@ -9123,7 +9124,7 @@ export type ListingPageQueryVariables = Exact<{
 }>;
 
 
-export type ListingPageQuery = { __typename?: 'RootQuery', listing?: { __typename?: 'Listing', content?: string | null | undefined, title?: string | null | undefined, slug?: string | null | undefined, id: string, acf?: { __typename?: 'Listing_Acf', address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, bannerImage?: { __typename?: 'MediaItem', uri?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined, propertyImages?: Array<{ __typename?: 'MediaItem', uri?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type ListingPageQuery = { __typename?: 'RootQuery', listing?: { __typename?: 'Listing', content?: string | null | undefined, title?: string | null | undefined, slug?: string | null | undefined, id: string, acf?: { __typename?: 'Listing_Acf', description?: string | null | undefined, address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, bannerImage?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined, propertyImages?: Array<{ __typename?: 'MediaItem', sourceUrl?: string | null | undefined, blurredPreview?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 
 export const IndexPageDocument = gql`
@@ -9244,10 +9245,11 @@ export const ListingPageDocument = gql`
     query ListingPage($id: ID!) {
   listing(id: $id) {
     acf {
+      description
       address
       area
       bannerImage {
-        uri
+        sourceUrl
         mediaDetails {
           height
           width
@@ -9255,12 +9257,14 @@ export const ListingPageDocument = gql`
       }
       bathrooms
       buildingType
+      propertytype
       facilities
       price
       rooms
     }
     propertyImages {
-      uri
+      sourceUrl
+      blurredPreview
       mediaDetails {
         width
         height
