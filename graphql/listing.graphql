@@ -10,6 +10,21 @@ query ListingPath {
 query ListingPage($id: ID!) {
   listing(id: $id) {
     acf {
+      agent {
+        ... on Agent {
+          title
+          agentsAcf {
+            email
+            phoneNumber1
+            phoneNumber2
+            picture {
+              blurredPreview
+              sourceUrl
+            }
+            position
+          }
+        }
+      }
       description
       address
       area
@@ -34,6 +49,10 @@ query ListingPage($id: ID!) {
         width
         height
       }
+    }
+    otherProperties {
+      key
+      value
     }
     content
     title

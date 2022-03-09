@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
 
 export interface LayoutProps {
@@ -22,6 +23,7 @@ export const Layout: React.FC<LayoutProps> = ({
       </Head>
       <Navbar />
       {children}
+      <Footer />
     </div>
   );
 };
