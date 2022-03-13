@@ -2,17 +2,23 @@ import NextLink from "next/link";
 import { Box, Flex, Heading, Text, Link, Tag } from "@chakra-ui/react";
 import { MediaDetails } from "generated/graphql";
 import Image from "next/image";
-import { useIntl, defineMessages } from "react-intl";
+import { useIntl, defineMessages, FormattedMessage } from "react-intl";
 import { BathtubIcon, BedIcon, MapPinIcon } from "icons";
 
 export interface ListingItemProps {
   title: string;
-  image: MediaDetails & { url: string; placeholder?: string | null; mimeType: string };
+  image: MediaDetails & {
+    url: string;
+    placeholder?: string | null;
+    mimeType: string;
+  };
   price: string;
   address: string;
   propertyType: string;
   slug: string;
   buildingType: string;
+  bedrooms: string;
+  bathrooms: string;
 }
 
 export const propertyTypeLocales = defineMessages({
@@ -34,6 +40,8 @@ export const ListingItem: React.FC<ListingItemProps> = ({
   propertyType,
   buildingType,
   slug,
+  bathrooms,
+  bedrooms,
 }) => {
   const intl = useIntl();
 
@@ -83,9 +91,7 @@ export const ListingItem: React.FC<ListingItemProps> = ({
           </Text>
           <Tag
             size="lg"
-            colorScheme={
-              propertyType === "RENT" ? "yellow" : "green"
-            }
+            colorScheme={propertyType === "RENT" ? "yellow" : "green"}
             variant="subtle"
           >
             {propertyType === "RENT"
@@ -129,7 +135,15 @@ export const ListingItem: React.FC<ListingItemProps> = ({
             >
               <BedIcon width="100%" height="100%" />
             </Box>
-            <Text>2 Bedrooms</Text>
+            <Text>
+              <FormattedMessage
+                id="listing.bedrooms"
+                defaultMessage={`{number} Bedrooms`}
+                values={{
+                  number: bedrooms,
+                }}
+              />
+            </Text>
           </Flex>
           <Flex
             w="49%"
@@ -149,7 +163,15 @@ export const ListingItem: React.FC<ListingItemProps> = ({
             >
               <BathtubIcon width="100%" height="100%" />
             </Box>
-            <Text>2 Bathrooms</Text>
+            <Text>
+              <FormattedMessage
+                id="listing.bathrooms"
+                defaultMessage={`{number} Bathrooms`}
+                values={{
+                  number: bathrooms,
+                }}
+              />
+            </Text>
           </Flex>
         </Flex>
       </Box>

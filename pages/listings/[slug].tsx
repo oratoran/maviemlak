@@ -36,6 +36,7 @@ import {
   MapPinIcon,
 } from "icons";
 import { defineMessages } from "@formatjs/intl";
+import { PostContainer } from "components/Post";
 
 const listingPropertyTitles = defineMessages({
   address: {
@@ -107,15 +108,15 @@ const ListingPage: NextPage<{
                 {listing.acf?.buildingType}
               </Tag>
             </HStack>
-            <Text mt="4">{listing.acf?.description}</Text>
+            <Text mt="4" fontSize="md">{listing.acf?.description}</Text>
           </Box>
         </Flex>
         <Flex mt="12">
-          <Box w="60%" pr="4">
+          <PostContainer w="60%" pr="4">
             <div
               dangerouslySetInnerHTML={{ __html: listing.content as string }}
             />
-          </Box>
+          </PostContainer>
           <Box w="40%">
             <ListingProperty
               icon={<MapPinIcon />}
@@ -160,25 +161,31 @@ const ListingPage: NextPage<{
               if (listing.acf?.agent) {
                 const agentData = listing.acf.agent;
                 return (
-                  <Flex direction="column" align="center" my="8" py="8">
-                    <Image
-                      width="180px"
-                      height="180px"
-                      alt=""
-                      src={agentData.agentsAcf?.picture?.sourceUrl as string}
-                      placeholder={
-                        agentData.agentsAcf?.picture?.blurredPreview
-                          ? "blur"
-                          : "empty"
+                  <Flex direction="column" align="center" my="8" py="8" bg="gray.50">
+                    <Box rounded="full" overflow="hidden" sx={{
+                      '& > span': {
+                        display: 'block !important'
                       }
-                      blurDataURL={
-                        agentData.agentsAcf?.picture?.blurredPreview as string
-                      }
-                    />
-                    <Heading as="h4" fontSize="2xl" mt="3">
+                    }}>
+                      <Image
+                        width="180px"
+                        height="180px"
+                        alt=""
+                        src={agentData.agentsAcf?.picture?.sourceUrl as string}
+                        placeholder={
+                          agentData.agentsAcf?.picture?.blurredPreview
+                            ? "blur"
+                            : "empty"
+                        }
+                        blurDataURL={
+                          agentData.agentsAcf?.picture?.blurredPreview as string
+                        }
+                      />
+                    </Box>
+                    <Heading as="h4" fontSize="2xl" mt="6">
                       {agentData.title}
                     </Heading>
-                    <Text color="blue.700" mt="1" mb="3">
+                    <Text color="blue.700" mt="1" mb="3" fontWeight="semibold">
                       {agentData.agentsAcf?.position}
                     </Text>
                     {agentData.agentsAcf?.email && (

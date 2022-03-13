@@ -7,6 +7,7 @@ import Turkish from "../locales/compiled-locales/tr.json";
 import English from "../locales/compiled-locales/en.json";
 import { IntlProvider } from "react-intl";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import theme from "theme";
 
 function App({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
@@ -22,7 +23,7 @@ function App({ Component, pageProps }: AppProps) {
   }, [shortLocale]);
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <IntlProvider
         locale={shortLocale}
         messages={messages}

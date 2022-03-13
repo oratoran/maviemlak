@@ -12,7 +12,6 @@ import { FormattedMessage } from "react-intl";
 const Home: NextPage<{
   data: IndexPageQuery;
 }> = ({ data }) => {
-  console.log(data);
   return (
     <Layout title="Mavi Emlak" description="Description">
       <Carousel>
@@ -54,7 +53,7 @@ const Home: NextPage<{
           </Box>
         ))}
       </Carousel>
-      <Container maxW="container.lg" py="8">
+      <Container maxW="container.xl" py="8">
         <Flex justifyContent="space-between" mb="4">
           <Heading as="h2">
             <FormattedMessage defaultMessage="Listings" id="listings" />
@@ -74,13 +73,15 @@ const Home: NextPage<{
                 url: item?.acf?.displayImage?.sourceUrl as string,
                 ...item?.acf?.displayImage?.mediaDetails,
                 placeholder: item?.acf?.displayImage?.blurredPreview,
-                mimeType: item?.acf?.displayImage?.mimeType as string
+                mimeType: item?.acf?.displayImage?.mimeType as string,
               }}
               price={item?.acf?.price as string}
               propertyType={item?.acf?.propertytype as string}
               title={item?.title as string}
               slug={item?.slug as string}
               buildingType={item?.acf?.buildingType as string}
+              bathrooms={`${item?.acf?.bathrooms ?? 0}`}
+              bedrooms={`${item?.acf?.rooms ?? 0}`}
             />
           ))}
         </Flex>

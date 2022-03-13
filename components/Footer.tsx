@@ -14,7 +14,7 @@ export const Footer = () => {
           <Image src="/logo.png" alt="Mavi Emlak" w="40" />
         </Link>
       </NextLink>
-      <Box my="4">
+      <Box my="4" fontSize="md">
         <List display="flex">
           {navbarItems.map((item) => (
             <ListItem key={item.url} mx="2">

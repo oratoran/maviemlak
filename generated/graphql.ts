@@ -7206,6 +7206,7 @@ export type RootQueryToListingConnectionWhereArgs = {
   parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
   password?: InputMaybe<Scalars['String']>;
+  propertyType?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
@@ -9940,6 +9941,25 @@ export type ListingPageQueryVariables = Exact<{
 
 export type ListingPageQuery = { __typename?: 'RootQuery', listing?: { __typename?: 'Listing', content?: string | null | undefined, title?: string | null | undefined, slug?: string | null | undefined, id: string, acf?: { __typename?: 'Listing_Acf', description?: string | null | undefined, address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, agent?: { __typename?: 'Agent', title?: string | null | undefined, agentsAcf?: { __typename?: 'Agent_Agentsacf', email?: string | null | undefined, phoneNumber1?: string | null | undefined, phoneNumber2?: string | null | undefined, position?: string | null | undefined, picture?: { __typename?: 'MediaItem', blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, bannerImage?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined, propertyImages?: Array<{ __typename?: 'MediaItem', sourceUrl?: string | null | undefined, blurredPreview?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined, otherProperties?: Array<{ __typename?: 'OtherPropertyField', key?: string | null | undefined, value?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
+export type PagePathsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PagePathsQuery = { __typename?: 'RootQuery', pages?: { __typename?: 'RootQueryToPageConnection', nodes?: Array<{ __typename?: 'Page', id: string, slug?: string | null | undefined, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
+export type PageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PageQuery = { __typename?: 'RootQuery', page?: { __typename?: 'Page', title?: string | null | undefined, slug?: string | null | undefined, content?: string | null | undefined } | null | undefined };
+
+export type RentOrSaleQueryVariables = Exact<{
+  propertyType: Scalars['String'];
+}>;
+
+
+export type RentOrSaleQuery = { __typename?: 'RootQuery', allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, title?: string | null | undefined, slug?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', propertytype?: string | null | undefined, address?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, displayImage?: { __typename?: 'MediaItem', mimeType?: string | null | undefined, blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
 
 export const IndexPageDocument = gql`
     query IndexPage {
@@ -10138,3 +10158,137 @@ export function useListingPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type ListingPageQueryHookResult = ReturnType<typeof useListingPageQuery>;
 export type ListingPageLazyQueryHookResult = ReturnType<typeof useListingPageLazyQuery>;
 export type ListingPageQueryResult = Apollo.QueryResult<ListingPageQuery, ListingPageQueryVariables>;
+export const PagePathsDocument = gql`
+    query PagePaths {
+  pages {
+    nodes {
+      id
+      slug
+      language {
+        code
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePagePathsQuery__
+ *
+ * To run a query within a React component, call `usePagePathsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePagePathsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePagePathsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePagePathsQuery(baseOptions?: Apollo.QueryHookOptions<PagePathsQuery, PagePathsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PagePathsQuery, PagePathsQueryVariables>(PagePathsDocument, options);
+      }
+export function usePagePathsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PagePathsQuery, PagePathsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PagePathsQuery, PagePathsQueryVariables>(PagePathsDocument, options);
+        }
+export type PagePathsQueryHookResult = ReturnType<typeof usePagePathsQuery>;
+export type PagePathsLazyQueryHookResult = ReturnType<typeof usePagePathsLazyQuery>;
+export type PagePathsQueryResult = Apollo.QueryResult<PagePathsQuery, PagePathsQueryVariables>;
+export const PageDocument = gql`
+    query Page($id: ID!) {
+  page(id: $id) {
+    title
+    slug
+    content
+  }
+}
+    `;
+
+/**
+ * __usePageQuery__
+ *
+ * To run a query within a React component, call `usePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePageQuery(baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
+      }
+export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(PageDocument, options);
+        }
+export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
+export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
+export type PageQueryResult = Apollo.QueryResult<PageQuery, PageQueryVariables>;
+export const RentOrSaleDocument = gql`
+    query RentOrSale($propertyType: String!) {
+  allListing(where: {propertyType: $propertyType}) {
+    nodes {
+      id
+      title
+      slug
+      acf {
+        propertytype
+        address
+        bathrooms
+        buildingType
+        propertytype
+        displayImage {
+          mimeType
+          blurredPreview
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        price
+        rooms
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useRentOrSaleQuery__
+ *
+ * To run a query within a React component, call `useRentOrSaleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRentOrSaleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRentOrSaleQuery({
+ *   variables: {
+ *      propertyType: // value for 'propertyType'
+ *   },
+ * });
+ */
+export function useRentOrSaleQuery(baseOptions: Apollo.QueryHookOptions<RentOrSaleQuery, RentOrSaleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RentOrSaleQuery, RentOrSaleQueryVariables>(RentOrSaleDocument, options);
+      }
+export function useRentOrSaleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RentOrSaleQuery, RentOrSaleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RentOrSaleQuery, RentOrSaleQueryVariables>(RentOrSaleDocument, options);
+        }
+export type RentOrSaleQueryHookResult = ReturnType<typeof useRentOrSaleQuery>;
+export type RentOrSaleLazyQueryHookResult = ReturnType<typeof useRentOrSaleLazyQuery>;
+export type RentOrSaleQueryResult = Apollo.QueryResult<RentOrSaleQuery, RentOrSaleQueryVariables>;

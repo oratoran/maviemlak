@@ -1,0 +1,27 @@
+query RentOrSale($propertyType: String!) {
+  allListing(where: { propertyType: $propertyType }) {
+    nodes {
+      id
+      title
+      slug
+      acf {
+        propertytype
+        address
+        bathrooms
+        buildingType
+        propertytype
+        displayImage {
+          mimeType
+          blurredPreview
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        price
+        rooms
+      }
+    }
+  }
+}

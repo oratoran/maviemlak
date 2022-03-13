@@ -1,0 +1,19 @@
+query PagePaths {
+  pages {
+    nodes {
+      id
+      slug
+      language {
+        code
+      }
+    }
+  }
+}
+
+query Page ($id: ID!) {
+  page(id: $id) {
+    title
+    slug
+    content
+  }
+}
