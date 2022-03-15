@@ -37,6 +37,7 @@ import {
 } from "icons";
 import { defineMessages } from "@formatjs/intl";
 import { PostContainer } from "components/Post";
+import { makeSlug } from "utils/makeSlug";
 
 const listingPropertyTitles = defineMessages({
   address: {
@@ -108,7 +109,9 @@ const ListingPage: NextPage<{
                 {listing.acf?.buildingType}
               </Tag>
             </HStack>
-            <Text mt="4" fontSize="md">{listing.acf?.description}</Text>
+            <Text mt="4" fontSize="md">
+              {listing.acf?.description}
+            </Text>
           </Box>
         </Flex>
         <Flex mt="12">
@@ -161,12 +164,22 @@ const ListingPage: NextPage<{
               if (listing.acf?.agent) {
                 const agentData = listing.acf.agent;
                 return (
-                  <Flex direction="column" align="center" my="8" py="8" bg="gray.50">
-                    <Box rounded="full" overflow="hidden" sx={{
-                      '& > span': {
-                        display: 'block !important'
-                      }
-                    }}>
+                  <Flex
+                    direction="column"
+                    align="center"
+                    my="8"
+                    py="8"
+                    bg="gray.50"
+                  >
+                    <Box
+                      rounded="full"
+                      overflow="hidden"
+                      sx={{
+                        "& > span": {
+                          display: "block !important",
+                        },
+                      }}
+                    >
                       <Image
                         width="180px"
                         height="180px"
@@ -214,14 +227,14 @@ const ListingPage: NextPage<{
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const urlCache = await getUrlCache("listings");
   if (!urlCache) throw new Error("Invalid URL Cache");
 
   const { data } = await client.query({
     query: ListingPageDocument,
     variables: {
-      id: urlCache[params?.slug as string],
+      id: urlCache[`${makeSlug(params?.slug as string)}--${locale}`],
     },
   });
 
@@ -240,14 +253,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths =
     data.allListing?.nodes?.map((item) => ({
       params: {
-        slug: item?.slug as string,
+        slug: makeSlug(item?.slug as string),
         id: item?.id as string,
       },
+      locale: item?.language?.code?.toLowerCase(),
     })) || [];
 
   const urlCache =
     data.allListing?.nodes?.reduce<{ [x: string]: string }>((acc, curr) => {
-      acc[curr?.slug as string] = curr?.id as string;
+      acc[
+        `${makeSlug(
+          curr?.slug as string
+        )}--${curr?.language?.code?.toLowerCase()}`
+      ] = curr?.id as string;
       return acc;
     }, {}) || {};
 

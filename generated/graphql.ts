@@ -9924,7 +9924,9 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
-export type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
+export type IndexPageQueryVariables = Exact<{
+  language?: InputMaybe<LanguageCodeFilterEnum>;
+}>;
 
 
 export type IndexPageQuery = { __typename?: 'RootQuery', siteSetting?: { __typename?: 'SiteSetting', settingsPage?: { __typename?: 'SiteSetting_Settingspage', featuredListings?: Array<{ __typename?: 'Listing', id: string, slug?: string | null | undefined, title?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', bannerImage?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined, allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, title?: string | null | undefined, slug?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, displayImage?: { __typename?: 'MediaItem', mimeType?: string | null | undefined, blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
@@ -9932,7 +9934,7 @@ export type IndexPageQuery = { __typename?: 'RootQuery', siteSetting?: { __typen
 export type ListingPathQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListingPathQuery = { __typename?: 'RootQuery', allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, slug?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type ListingPathQuery = { __typename?: 'RootQuery', allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, slug?: string | null | undefined, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type ListingPageQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -9962,7 +9964,7 @@ export type RentOrSaleQuery = { __typename?: 'RootQuery', allListing?: { __typen
 
 
 export const IndexPageDocument = gql`
-    query IndexPage {
+    query IndexPage($language: LanguageCodeFilterEnum) {
   siteSetting(id: "settings", idType: URI) {
     settingsPage {
       featuredListings {
@@ -9983,7 +9985,7 @@ export const IndexPageDocument = gql`
       }
     }
   }
-  allListing {
+  allListing(where: {language: $language}) {
     nodes {
       id
       title
@@ -10024,6 +10026,7 @@ export const IndexPageDocument = gql`
  * @example
  * const { data, loading, error } = useIndexPageQuery({
  *   variables: {
+ *      language: // value for 'language'
  *   },
  * });
  */
@@ -10044,6 +10047,9 @@ export const ListingPathDocument = gql`
     nodes {
       id
       slug
+      language {
+        code
+      }
     }
   }
 }

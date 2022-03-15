@@ -8,6 +8,7 @@ import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ListingItem } from "components/ListingItem";
 import { FormattedMessage } from "react-intl";
+import { makeSlug } from "utils/makeSlug";
 
 const Home: NextPage<{
   data: IndexPageQuery;
@@ -36,7 +37,7 @@ const Home: NextPage<{
               p="12"
               pb="20"
             >
-              <NextLink href={`/listings/${item?.slug}`} passHref>
+              <NextLink href={`/listings/${makeSlug(item?.slug as string)}`} passHref>
                 <Link
                   maxW="60%"
                   textAlign="right"
@@ -86,13 +87,64 @@ const Home: NextPage<{
           ))}
         </Flex>
       </Container>
+      <Container maxW="container.xl" py="8" mt="12">
+        <Flex h="400px">
+          <Box pr="8" position="relative" w="50%" display="flex">
+            <NextLink href="/rent" passHref>
+              <Link
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                bg="linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/for-rent.jpg'), linear-gradient(#222, #222)"
+                backgroundSize="auto 100%"
+                backgroundPosition="50% 50%"
+                transition="background-size 0.35s ease-in"
+                w="100%"
+                _hover={{
+                  textDecoration: "none",
+                  backgroundSize: "auto 110%",
+                }}
+              >
+                <Heading as="h2" color="white">
+                  <FormattedMessage defaultMessage="For Rent" id="forRent" />
+                </Heading>
+              </Link>
+            </NextLink>
+          </Box>
+          <Box pl="8" position="relative" w="50%" display="flex">
+            <NextLink href="/buy" passHref>
+              <Link
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                bg="linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/for-sale.jpg'), linear-gradient(#222, #222)"
+                backgroundSize="auto 100%"
+                backgroundPosition="50% 50%"
+                transition="background-size 0.35s ease-in"
+                w="100%"
+                _hover={{
+                  textDecoration: "none",
+                  backgroundSize: "auto 110%",
+                }}
+              >
+                <Heading as="h2" color="white">
+                  <FormattedMessage defaultMessage="For Sale" id="forSale" />
+                </Heading>
+              </Link>
+            </NextLink>
+          </Box>
+        </Flex>
+      </Container>
     </Layout>
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const { data } = await client.query({
     query: IndexPageDocument,
+    variables: {
+      language: locale?.toUpperCase(),
+    },
   });
 
   return {

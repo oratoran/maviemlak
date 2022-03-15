@@ -4,6 +4,7 @@ import { MediaDetails } from "generated/graphql";
 import Image from "next/image";
 import { useIntl, defineMessages, FormattedMessage } from "react-intl";
 import { BathtubIcon, BedIcon, MapPinIcon } from "icons";
+import { makeSlug } from "utils/makeSlug";
 
 export interface ListingItemProps {
   title: string;
@@ -75,7 +76,7 @@ export const ListingItem: React.FC<ListingItemProps> = ({
             color: "blue.500",
           }}
         >
-          <NextLink href={`/listings/${slug}`} passHref>
+          <NextLink href={`/listings/${makeSlug(slug)}`} passHref>
             <Link
               _hover={{
                 textDecoration: "none",

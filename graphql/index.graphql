@@ -1,4 +1,4 @@
-query IndexPage {
+query IndexPage($language: LanguageCodeFilterEnum) {
   siteSetting(id: "settings", idType: URI) {
     settingsPage {
       featuredListings {
@@ -19,7 +19,7 @@ query IndexPage {
       }
     }
   }
-  allListing {
+  allListing(where: {language: $language }) {
     nodes {
       id
       title

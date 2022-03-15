@@ -3,6 +3,9 @@ query ListingPath {
     nodes {
       id
       slug
+      language {
+        code
+      }
     }
   }
 }
