@@ -32,12 +32,14 @@ import {
   BathtubIcon,
   ClipboardIcon,
   DoorOpenIcon,
+  GlobeIcon,
   MapIcon,
   MapPinIcon,
 } from "icons";
 import { defineMessages } from "@formatjs/intl";
 import { PostContainer } from "components/Post";
 import { makeSlug } from "utils/makeSlug";
+import NextLink from "next/link";
 
 const listingPropertyTitles = defineMessages({
   address: {
@@ -109,6 +111,19 @@ const ListingPage: NextPage<{
                 {listing.acf?.buildingType}
               </Tag>
             </HStack>
+            {listing.acf?.location?.slug && (
+              <Box my="3">
+                <NextLink
+                  passHref
+                  href={`/locations/${listing.acf?.location?.slug}`}
+                >
+                  <Link display="flex" color="blue.600" alignItems="center">
+                    <GlobeIcon />
+                    <Text ml="3">{listing.acf.location.title}</Text>
+                  </Link>
+                </NextLink>
+              </Box>
+            )}
             <Text mt="4" fontSize="md">
               {listing.acf?.description}
             </Text>

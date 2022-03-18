@@ -65,7 +65,7 @@ const Home: NextPage<{
             </Link>
           </NextLink>
         </Flex>
-        <Flex>
+        <Flex flexWrap="wrap" ml="-4" mr="-4" >
           {data.allListing?.nodes?.map((item) => (
             <ListingItem
               key={item?.id}

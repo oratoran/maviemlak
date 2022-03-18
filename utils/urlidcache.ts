@@ -4,7 +4,7 @@ import { promisify } from "util";
 export const readFile = promisify(fs.readFile);
 export const writeFile = promisify(fs.writeFile);
 
-type CacheTypes = "listings" | "pages";
+type CacheTypes = "listings" | "pages" | "locations";
 
 export async function createCustomUrlIdIndex(
   cache: CacheTypes,

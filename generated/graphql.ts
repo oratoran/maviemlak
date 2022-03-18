@@ -461,6 +461,8 @@ export type Category = DatabaseIdentifier & HierarchicalTermNode & MenuItemLinka
   allAgents?: Maybe<CategoryToAgentConnection>;
   /** Connection between the category type and the listing type */
   allListing?: Maybe<CategoryToListingConnection>;
+  /** Connection between the category type and the location type */
+  allLocations?: Maybe<CategoryToLocationConnection>;
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
   /**
@@ -540,6 +542,16 @@ export type CategoryAllListingArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CategoryToListingConnectionWhereArgs>;
+};
+
+
+/** The category type */
+export type CategoryAllLocationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryToLocationConnectionWhereArgs>;
 };
 
 
@@ -863,6 +875,84 @@ export type CategoryToListingConnectionEdge = {
 
 /** Arguments for filtering the CategoryToListingConnection connection */
 export type CategoryToListingConnectionWhereArgs = {
+  /** Category ID */
+  categoryId?: InputMaybe<Scalars['Int']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Use Category Slug */
+  categoryName?: InputMaybe<Scalars['String']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Tag Slug */
+  tag?: InputMaybe<Scalars['String']>;
+  /** Use Tag ID */
+  tagId?: InputMaybe<Scalars['String']>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of tag slugs, used to display objects from one tag OR another */
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Array of tag slugs, used to exclude objects in specified tags */
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** Connection between the category type and the location type */
+export type CategoryToLocationConnection = {
+  __typename?: 'CategoryToLocationConnection';
+  /** Edges for the CategoryToLocationConnection connection */
+  edges?: Maybe<Array<Maybe<CategoryToLocationConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<Location>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type CategoryToLocationConnectionEdge = {
+  __typename?: 'CategoryToLocationConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<Location>;
+};
+
+/** Arguments for filtering the CategoryToLocationConnection connection */
+export type CategoryToLocationConnectionWhereArgs = {
   /** Category ID */
   categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
@@ -1572,6 +1662,8 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   Listing = 'LISTING',
   /** The Type of Content object */
+  Locations = 'LOCATIONS',
+  /** The Type of Content object */
   Page = 'PAGE',
   /** The Type of Content object */
   Post = 'POST',
@@ -1674,6 +1766,8 @@ export enum ContentTypesOfCategoryEnum {
   /** The Type of Content object */
   Listing = 'LISTING',
   /** The Type of Content object */
+  Locations = 'LOCATIONS',
+  /** The Type of Content object */
   Post = 'POST'
 }
 
@@ -1689,6 +1783,8 @@ export enum ContentTypesOfTagEnum {
   Agents = 'AGENTS',
   /** The Type of Content object */
   Listing = 'LISTING',
+  /** The Type of Content object */
+  Locations = 'LOCATIONS',
   /** The Type of Content object */
   Post = 'POST'
 }
@@ -1823,6 +1919,37 @@ export type CreateListingPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The Post object mutation type. */
   listing?: Maybe<Listing>;
+};
+
+/** Input for the createLocation mutation */
+export type CreateLocationInput = {
+  /** Set connections between the location and categories */
+  categories?: InputMaybe<LocationCategoriesInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars['String']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars['Int']>;
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars['String']>;
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars['String']>;
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Set connections between the location and tags */
+  tags?: InputMaybe<LocationTagsInput>;
+  /** The title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** The payload for the createLocation mutation */
+export type CreateLocationPayload = {
+  __typename?: 'CreateLocationPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
+  location?: Maybe<Location>;
 };
 
 /** Input for the createMediaItem mutation */
@@ -2208,6 +2335,27 @@ export type DeleteListingPayload = {
   deletedId?: Maybe<Scalars['ID']>;
   /** The object before it was deleted */
   listing?: Maybe<Listing>;
+};
+
+/** Input for the deleteLocation mutation */
+export type DeleteLocationInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
+  /** The ID of the location to delete */
+  id: Scalars['ID'];
+};
+
+/** The payload for the deleteLocation mutation */
+export type DeleteLocationPayload = {
+  __typename?: 'DeleteLocationPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The ID of the deleted object */
+  deletedId?: Maybe<Scalars['ID']>;
+  /** The object before it was deleted */
+  location?: Maybe<Location>;
 };
 
 /** Input for the deleteMediaItem mutation */
@@ -3170,12 +3318,406 @@ export type Listing_Acf = AcfFieldGroup & {
   facilities?: Maybe<Scalars['String']>;
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']>;
+  location?: Maybe<Listing_Acf_Location>;
   price?: Maybe<Scalars['String']>;
   propertytype?: Maybe<Scalars['String']>;
   rooms?: Maybe<Scalars['Float']>;
 };
 
 export type Listing_Acf_Agent = Agent;
+
+export type Listing_Acf_Location = Location;
+
+/** The location type */
+export type Location = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
+  __typename?: 'Location';
+  /** Connection between the location type and the category type */
+  categories?: Maybe<LocationToCategoryConnection>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
+  /** The unique resource identifier path */
+  databaseId: Scalars['Int'];
+  /** Post publishing date. */
+  date?: Maybe<Scalars['String']>;
+  /** The publishing date set in GMT. */
+  dateGmt?: Maybe<Scalars['String']>;
+  /** The desired slug of the post */
+  desiredSlug?: Maybe<Scalars['String']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid?: Maybe<Scalars['String']>;
+  /** The globally unique identifier of the locations object. */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The user that most recently edited the node */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link?: Maybe<Scalars['String']>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  locationId: Scalars['Int'];
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Locations&quot; was set to Show in GraphQL. */
+  locationsAcf?: Maybe<Location_Locationsacf>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified?: Maybe<Scalars['String']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt?: Maybe<Scalars['String']>;
+  /** Connection between the location type and the location type */
+  preview?: Maybe<LocationToPreviewConnectionEdge>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug?: Maybe<Scalars['String']>;
+  /** The current status of the object */
+  status?: Maybe<Scalars['String']>;
+  /** Connection between the location type and the tag type */
+  tags?: Maybe<LocationToTagConnection>;
+  /** The template assigned to the node */
+  template?: Maybe<ContentTemplate>;
+  /** Connection between the location type and the TermNode type */
+  terms?: Maybe<LocationToTermNodeConnection>;
+  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+  title?: Maybe<Scalars['String']>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
+};
+
+
+/** The location type */
+export type LocationCategoriesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LocationToCategoryConnectionWhereArgs>;
+};
+
+
+/** The location type */
+export type LocationEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The location type */
+export type LocationEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The location type */
+export type LocationTagsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LocationToTagConnectionWhereArgs>;
+};
+
+
+/** The location type */
+export type LocationTermsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LocationToTermNodeConnectionWhereArgs>;
+};
+
+
+/** The location type */
+export type LocationTitleArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** Set relationships between the location to categories */
+export type LocationCategoriesInput = {
+  /** If true, this will append the category to existing related categories. If false, this will replace existing relationships. Default true. */
+  append?: InputMaybe<Scalars['Boolean']>;
+  /** The input list of items to set. */
+  nodes?: InputMaybe<Array<InputMaybe<LocationCategoriesNodeInput>>>;
+};
+
+/** List of categories to connect the location to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
+export type LocationCategoriesNodeInput = {
+  /** The description of the category. This field is used to set a description of the category if a new one is created during the mutation. */
+  description?: InputMaybe<Scalars['String']>;
+  /** The ID of the category. If present, this will be used to connect to the location. If no existing category exists with this ID, no connection will be made. */
+  id?: InputMaybe<Scalars['ID']>;
+  /** The name of the category. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
+  name?: InputMaybe<Scalars['String']>;
+  /** The slug of the category. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
+  slug?: InputMaybe<Scalars['String']>;
+};
+
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum LocationIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI'
+}
+
+/** Set relationships between the location to tags */
+export type LocationTagsInput = {
+  /** If true, this will append the tag to existing related tags. If false, this will replace existing relationships. Default true. */
+  append?: InputMaybe<Scalars['Boolean']>;
+  /** The input list of items to set. */
+  nodes?: InputMaybe<Array<InputMaybe<LocationTagsNodeInput>>>;
+};
+
+/** List of tags to connect the location to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
+export type LocationTagsNodeInput = {
+  /** The description of the tag. This field is used to set a description of the tag if a new one is created during the mutation. */
+  description?: InputMaybe<Scalars['String']>;
+  /** The ID of the tag. If present, this will be used to connect to the location. If no existing tag exists with this ID, no connection will be made. */
+  id?: InputMaybe<Scalars['ID']>;
+  /** The name of the tag. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
+  name?: InputMaybe<Scalars['String']>;
+  /** The slug of the tag. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
+  slug?: InputMaybe<Scalars['String']>;
+};
+
+/** Connection between the location type and the category type */
+export type LocationToCategoryConnection = {
+  __typename?: 'LocationToCategoryConnection';
+  /** Edges for the LocationToCategoryConnection connection */
+  edges?: Maybe<Array<Maybe<LocationToCategoryConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<Category>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type LocationToCategoryConnectionEdge = {
+  __typename?: 'LocationToCategoryConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<Category>;
+};
+
+/** Arguments for filtering the LocationToCategoryConnection connection */
+export type LocationToCategoryConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']>;
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']>;
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']>;
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']>;
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']>;
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>;
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']>;
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']>;
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']>;
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Connection between the location type and the location type */
+export type LocationToPreviewConnectionEdge = {
+  __typename?: 'LocationToPreviewConnectionEdge';
+  /** The node of the connection, without the edges */
+  node?: Maybe<Location>;
+};
+
+/** Connection between the location type and the tag type */
+export type LocationToTagConnection = {
+  __typename?: 'LocationToTagConnection';
+  /** Edges for the LocationToTagConnection connection */
+  edges?: Maybe<Array<Maybe<LocationToTagConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<Tag>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type LocationToTagConnectionEdge = {
+  __typename?: 'LocationToTagConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<Tag>;
+};
+
+/** Arguments for filtering the LocationToTagConnection connection */
+export type LocationToTagConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']>;
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']>;
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']>;
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']>;
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']>;
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>;
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']>;
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']>;
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']>;
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Connection between the location type and the TermNode type */
+export type LocationToTermNodeConnection = {
+  __typename?: 'LocationToTermNodeConnection';
+  /** Edges for the LocationToTermNodeConnection connection */
+  edges?: Maybe<Array<Maybe<LocationToTermNodeConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<TermNode>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type LocationToTermNodeConnectionEdge = {
+  __typename?: 'LocationToTermNodeConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<TermNode>;
+};
+
+/** Arguments for filtering the LocationToTermNodeConnection connection */
+export type LocationToTermNodeConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']>;
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']>;
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']>;
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']>;
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']>;
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>;
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']>;
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']>;
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']>;
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** The Taxonomy to filter terms by */
+  taxonomies?: InputMaybe<Array<InputMaybe<TaxonomyEnum>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Field Group */
+export type Location_Locationsacf = AcfFieldGroup & {
+  __typename?: 'Location_Locationsacf';
+  description?: Maybe<Scalars['String']>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** Square image */
+  image?: Maybe<MediaItem>;
+};
 
 /** File details for a Media Item */
 export type MediaDetails = {
@@ -3682,7 +4224,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Agent | Category | Listing | Page | Post | SiteSetting | Tag;
+export type MenuItemObjectUnion = Agent | Category | Listing | Location | Page | Post | SiteSetting | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -5845,6 +6387,8 @@ export type RootMutation = {
   createComment?: Maybe<CreateCommentPayload>;
   /** The payload for the createListing mutation */
   createListing?: Maybe<CreateListingPayload>;
+  /** The payload for the createLocation mutation */
+  createLocation?: Maybe<CreateLocationPayload>;
   /** The payload for the createMediaItem mutation */
   createMediaItem?: Maybe<CreateMediaItemPayload>;
   /** The payload for the createPage mutation */
@@ -5867,6 +6411,8 @@ export type RootMutation = {
   deleteComment?: Maybe<DeleteCommentPayload>;
   /** The payload for the deleteListing mutation */
   deleteListing?: Maybe<DeleteListingPayload>;
+  /** The payload for the deleteLocation mutation */
+  deleteLocation?: Maybe<DeleteLocationPayload>;
   /** The payload for the deleteMediaItem mutation */
   deleteMediaItem?: Maybe<DeleteMediaItemPayload>;
   /** The payload for the deletePage mutation */
@@ -5899,6 +6445,8 @@ export type RootMutation = {
   updateComment?: Maybe<UpdateCommentPayload>;
   /** The payload for the updateListing mutation */
   updateListing?: Maybe<UpdateListingPayload>;
+  /** The payload for the updateLocation mutation */
+  updateLocation?: Maybe<UpdateLocationPayload>;
   /** The payload for the updateMediaItem mutation */
   updateMediaItem?: Maybe<UpdateMediaItemPayload>;
   /** The payload for the updatePage mutation */
@@ -5939,6 +6487,12 @@ export type RootMutationCreateCommentArgs = {
 /** The root mutation */
 export type RootMutationCreateListingArgs = {
   input: CreateListingInput;
+};
+
+
+/** The root mutation */
+export type RootMutationCreateLocationArgs = {
+  input: CreateLocationInput;
 };
 
 
@@ -6005,6 +6559,12 @@ export type RootMutationDeleteCommentArgs = {
 /** The root mutation */
 export type RootMutationDeleteListingArgs = {
   input: DeleteListingInput;
+};
+
+
+/** The root mutation */
+export type RootMutationDeleteLocationArgs = {
+  input: DeleteLocationInput;
 };
 
 
@@ -6105,6 +6665,12 @@ export type RootMutationUpdateListingArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateLocationArgs = {
+  input: UpdateLocationInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateMediaItemArgs = {
   input: UpdateMediaItemInput;
 };
@@ -6165,6 +6731,8 @@ export type RootQuery = {
   allAgents?: Maybe<RootQueryToAgentConnection>;
   /** Connection between the RootQuery type and the listing type */
   allListing?: Maybe<RootQueryToListingConnection>;
+  /** Connection between the RootQuery type and the location type */
+  allLocations?: Maybe<RootQueryToLocationConnection>;
   /** Entry point to get all settings for the site */
   allSettings?: Maybe<Settings>;
   /** Connection between the RootQuery type and the siteSetting type */
@@ -6200,6 +6768,13 @@ export type RootQuery = {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   listingBy?: Maybe<Listing>;
+  /** An object of the location Type. Post Type Description */
+  location?: Maybe<Location>;
+  /**
+   * A location object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  locationBy?: Maybe<Location>;
   /** An object of the mediaItem Type.  */
   mediaItem?: Maybe<MediaItem>;
   /**
@@ -6333,6 +6908,16 @@ export type RootQueryAllListingArgs = {
 
 
 /** The root entry point into the Graph */
+export type RootQueryAllLocationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToLocationConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
 export type RootQueryAllSiteSettingsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -6422,6 +7007,23 @@ export type RootQueryListingArgs = {
 export type RootQueryListingByArgs = {
   id?: InputMaybe<Scalars['ID']>;
   listingId?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryLocationArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  idType?: InputMaybe<LocationIdType>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryLocationByArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+  locationId?: InputMaybe<Scalars['Int']>;
   slug?: InputMaybe<Scalars['String']>;
   uri?: InputMaybe<Scalars['String']>;
 };
@@ -7188,6 +7790,7 @@ export type RootQueryToListingConnectionWhereArgs = {
   language?: InputMaybe<LanguageCodeFilterEnum>;
   /** Filter Listings by one or more languages (Polylang) */
   languages?: InputMaybe<Array<LanguageCodeEnum>>;
+  location?: InputMaybe<Scalars['String']>;
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7207,6 +7810,84 @@ export type RootQueryToListingConnectionWhereArgs = {
   /** Show posts with a specific password. */
   password?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Tag Slug */
+  tag?: InputMaybe<Scalars['String']>;
+  /** Use Tag ID */
+  tagId?: InputMaybe<Scalars['String']>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of tag slugs, used to display objects from one tag OR another */
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Array of tag slugs, used to exclude objects in specified tags */
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** Connection between the RootQuery type and the location type */
+export type RootQueryToLocationConnection = {
+  __typename?: 'RootQueryToLocationConnection';
+  /** Edges for the RootQueryToLocationConnection connection */
+  edges?: Maybe<Array<Maybe<RootQueryToLocationConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<Location>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type RootQueryToLocationConnectionEdge = {
+  __typename?: 'RootQueryToLocationConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<Location>;
+};
+
+/** Arguments for filtering the RootQueryToLocationConnection connection */
+export type RootQueryToLocationConnectionWhereArgs = {
+  /** Category ID */
+  categoryId?: InputMaybe<Scalars['Int']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Use Category Slug */
+  categoryName?: InputMaybe<Scalars['String']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
@@ -8088,6 +8769,8 @@ export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Unif
   allAgents?: Maybe<TagToAgentConnection>;
   /** Connection between the tag type and the listing type */
   allListing?: Maybe<TagToListingConnection>;
+  /** Connection between the tag type and the location type */
+  allLocations?: Maybe<TagToLocationConnection>;
   /** Connection between the tag type and the ContentNode type */
   contentNodes?: Maybe<TagToContentNodeConnection>;
   /** The number of objects connected to the object */
@@ -8157,6 +8840,16 @@ export type TagAllListingArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TagToListingConnectionWhereArgs>;
+};
+
+
+/** The tag type */
+export type TagAllLocationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TagToLocationConnectionWhereArgs>;
 };
 
 
@@ -8377,6 +9070,84 @@ export type TagToListingConnectionEdge = {
 
 /** Arguments for filtering the TagToListingConnection connection */
 export type TagToListingConnectionWhereArgs = {
+  /** Category ID */
+  categoryId?: InputMaybe<Scalars['Int']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Use Category Slug */
+  categoryName?: InputMaybe<Scalars['String']>;
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Tag Slug */
+  tag?: InputMaybe<Scalars['String']>;
+  /** Use Tag ID */
+  tagId?: InputMaybe<Scalars['String']>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Array of tag slugs, used to display objects from one tag OR another */
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Array of tag slugs, used to exclude objects in specified tags */
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** Connection between the tag type and the location type */
+export type TagToLocationConnection = {
+  __typename?: 'TagToLocationConnection';
+  /** Edges for the TagToLocationConnection connection */
+  edges?: Maybe<Array<Maybe<TagToLocationConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<Location>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type TagToLocationConnectionEdge = {
+  __typename?: 'TagToLocationConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<Location>;
+};
+
+/** Arguments for filtering the TagToLocationConnection connection */
+export type TagToLocationConnectionWhereArgs = {
   /** Category ID */
   categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
@@ -8921,6 +9692,39 @@ export type UpdateListingPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The Post object mutation type. */
   listing?: Maybe<Listing>;
+};
+
+/** Input for the updateLocation mutation */
+export type UpdateLocationInput = {
+  /** Set connections between the location and categories */
+  categories?: InputMaybe<LocationCategoriesInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars['String']>;
+  /** The ID of the location object */
+  id: Scalars['ID'];
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars['Int']>;
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars['String']>;
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars['String']>;
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Set connections between the location and tags */
+  tags?: InputMaybe<LocationTagsInput>;
+  /** The title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** The payload for the updateLocation mutation */
+export type UpdateLocationPayload = {
+  __typename?: 'UpdateLocationPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
+  location?: Maybe<Location>;
 };
 
 /** Input for the updateMediaItem mutation */
@@ -9941,7 +10745,21 @@ export type ListingPageQueryVariables = Exact<{
 }>;
 
 
-export type ListingPageQuery = { __typename?: 'RootQuery', listing?: { __typename?: 'Listing', content?: string | null | undefined, title?: string | null | undefined, slug?: string | null | undefined, id: string, acf?: { __typename?: 'Listing_Acf', description?: string | null | undefined, address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, agent?: { __typename?: 'Agent', title?: string | null | undefined, agentsAcf?: { __typename?: 'Agent_Agentsacf', email?: string | null | undefined, phoneNumber1?: string | null | undefined, phoneNumber2?: string | null | undefined, position?: string | null | undefined, picture?: { __typename?: 'MediaItem', blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, bannerImage?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined, propertyImages?: Array<{ __typename?: 'MediaItem', sourceUrl?: string | null | undefined, blurredPreview?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined, otherProperties?: Array<{ __typename?: 'OtherPropertyField', key?: string | null | undefined, value?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type ListingPageQuery = { __typename?: 'RootQuery', listing?: { __typename?: 'Listing', content?: string | null | undefined, title?: string | null | undefined, slug?: string | null | undefined, id: string, acf?: { __typename?: 'Listing_Acf', description?: string | null | undefined, address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, agent?: { __typename?: 'Agent', title?: string | null | undefined, agentsAcf?: { __typename?: 'Agent_Agentsacf', email?: string | null | undefined, phoneNumber1?: string | null | undefined, phoneNumber2?: string | null | undefined, position?: string | null | undefined, picture?: { __typename?: 'MediaItem', blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, location?: { __typename?: 'Location', title?: string | null | undefined, slug?: string | null | undefined } | null | undefined, bannerImage?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined, propertyImages?: Array<{ __typename?: 'MediaItem', sourceUrl?: string | null | undefined, blurredPreview?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', width?: number | null | undefined, height?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined, otherProperties?: Array<{ __typename?: 'OtherPropertyField', key?: string | null | undefined, value?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
+export type AllLocationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllLocationsQuery = { __typename?: 'RootQuery', allLocations?: { __typename?: 'RootQueryToLocationConnection', nodes?: Array<{ __typename?: 'Location', id: string, slug?: string | null | undefined, title?: string | null | undefined, locationsAcf?: { __typename?: 'Location_Locationsacf', description?: string | null | undefined, image?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, mimeType?: string | null | undefined, blurredPreview?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
+export type ListingByLocationQueryVariables = Exact<{
+  language?: InputMaybe<LanguageCodeFilterEnum>;
+  location?: InputMaybe<Scalars['String']>;
+  locationId: Scalars['ID'];
+}>;
+
+
+export type ListingByLocationQuery = { __typename?: 'RootQuery', location?: { __typename?: 'Location', title?: string | null | undefined, locationsAcf?: { __typename?: 'Location_Locationsacf', description?: string | null | undefined, image?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, listings?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', title?: string | null | undefined, id: string, slug?: string | null | undefined, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null | undefined } | null | undefined, acf?: { __typename?: 'Listing_Acf', address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, displayImage?: { __typename?: 'MediaItem', mimeType?: string | null | undefined, blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type PagePathsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10100,6 +10918,12 @@ export const ListingPageDocument = gql`
           }
         }
       }
+      location {
+        ... on Location {
+          title
+          slug
+        }
+      }
       description
       address
       area
@@ -10164,6 +10988,124 @@ export function useListingPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type ListingPageQueryHookResult = ReturnType<typeof useListingPageQuery>;
 export type ListingPageLazyQueryHookResult = ReturnType<typeof useListingPageLazyQuery>;
 export type ListingPageQueryResult = Apollo.QueryResult<ListingPageQuery, ListingPageQueryVariables>;
+export const AllLocationsDocument = gql`
+    query allLocations {
+  allLocations {
+    nodes {
+      id
+      slug
+      title
+      locationsAcf {
+        description
+        image {
+          sourceUrl
+          mimeType
+          blurredPreview
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useAllLocationsQuery__
+ *
+ * To run a query within a React component, call `useAllLocationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllLocationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllLocationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllLocationsQuery(baseOptions?: Apollo.QueryHookOptions<AllLocationsQuery, AllLocationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllLocationsQuery, AllLocationsQueryVariables>(AllLocationsDocument, options);
+      }
+export function useAllLocationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllLocationsQuery, AllLocationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllLocationsQuery, AllLocationsQueryVariables>(AllLocationsDocument, options);
+        }
+export type AllLocationsQueryHookResult = ReturnType<typeof useAllLocationsQuery>;
+export type AllLocationsLazyQueryHookResult = ReturnType<typeof useAllLocationsLazyQuery>;
+export type AllLocationsQueryResult = Apollo.QueryResult<AllLocationsQuery, AllLocationsQueryVariables>;
+export const ListingByLocationDocument = gql`
+    query ListingByLocation($language: LanguageCodeFilterEnum, $location: String, $locationId: ID!) {
+  location: location(id: $locationId) {
+    title
+    locationsAcf {
+      description
+      image {
+        sourceUrl
+      }
+    }
+  }
+  listings: allListing(where: {language: $language, location: $location}) {
+    nodes {
+      title
+      id
+      slug
+      language {
+        code
+      }
+      acf {
+        address
+        area
+        bathrooms
+        buildingType
+        propertytype
+        displayImage {
+          mimeType
+          blurredPreview
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        facilities
+        price
+        rooms
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useListingByLocationQuery__
+ *
+ * To run a query within a React component, call `useListingByLocationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListingByLocationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListingByLocationQuery({
+ *   variables: {
+ *      language: // value for 'language'
+ *      location: // value for 'location'
+ *      locationId: // value for 'locationId'
+ *   },
+ * });
+ */
+export function useListingByLocationQuery(baseOptions: Apollo.QueryHookOptions<ListingByLocationQuery, ListingByLocationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListingByLocationQuery, ListingByLocationQueryVariables>(ListingByLocationDocument, options);
+      }
+export function useListingByLocationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListingByLocationQuery, ListingByLocationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListingByLocationQuery, ListingByLocationQueryVariables>(ListingByLocationDocument, options);
+        }
+export type ListingByLocationQueryHookResult = ReturnType<typeof useListingByLocationQuery>;
+export type ListingByLocationLazyQueryHookResult = ReturnType<typeof useListingByLocationLazyQuery>;
+export type ListingByLocationQueryResult = Apollo.QueryResult<ListingByLocationQuery, ListingByLocationQueryVariables>;
 export const PagePathsDocument = gql`
     query PagePaths {
   pages {

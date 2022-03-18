@@ -1,0 +1,62 @@
+query allLocations {
+  allLocations {
+    nodes {
+      id
+      slug
+      title
+      locationsAcf {
+        description
+        image {
+          sourceUrl
+          mimeType
+          blurredPreview
+        }
+      }
+    }
+  }
+}
+
+query ListingByLocation(
+  $language: LanguageCodeFilterEnum
+  $location: String
+  $locationId: ID!
+) {
+  location: location(id: $locationId) {
+    title
+    locationsAcf {
+      description
+      image {
+        sourceUrl
+      }
+    }
+  }
+  listings: allListing(where: { language: $language, location: $location }) {
+    nodes {
+      title
+      id
+      slug
+      language {
+        code
+      }
+      acf {
+        address
+        area
+        bathrooms
+        buildingType
+        propertytype
+        displayImage {
+          mimeType
+          blurredPreview
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        facilities
+        price
+        rooms
+      }
+    }
+  }
+}

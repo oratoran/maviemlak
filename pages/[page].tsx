@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const urlCache = await getUrlCache("pages");
   if (!urlCache) throw new Error("Invalid URL Cache");
 
-  let id = urlCache[`${params?.slug}--${locale}`] as string;
+  let id = urlCache[`${params?.page}--${locale}`] as string;
 
   const { data } = await client.query({
     query: PageDocument,
@@ -65,7 +65,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths =
     data.pages?.nodes?.map((item) => ({
       params: {
-        slug: makeSlug(item?.slug as string),
+        page: makeSlug(item?.slug as string),
         id: item?.id as string,
       },
       locale: item?.language?.code?.toLowerCase()

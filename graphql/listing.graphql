@@ -28,6 +28,12 @@ query ListingPage($id: ID!) {
           }
         }
       }
+      location {
+        ... on Location {
+          title
+          slug
+        }
+      }
       description
       address
       area
