@@ -10740,6 +10740,13 @@ export type ListingPathQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ListingPathQuery = { __typename?: 'RootQuery', allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, slug?: string | null | undefined, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
+export type AllListingsQueryVariables = Exact<{
+  language?: InputMaybe<LanguageCodeFilterEnum>;
+}>;
+
+
+export type AllListingsQuery = { __typename?: 'RootQuery', allListing?: { __typename?: 'RootQueryToListingConnection', nodes?: Array<{ __typename?: 'Listing', id: string, title?: string | null | undefined, slug?: string | null | undefined, acf?: { __typename?: 'Listing_Acf', address?: string | null | undefined, area?: string | null | undefined, bathrooms?: number | null | undefined, buildingType?: string | null | undefined, propertytype?: string | null | undefined, facilities?: string | null | undefined, price?: string | null | undefined, rooms?: number | null | undefined, displayImage?: { __typename?: 'MediaItem', mimeType?: string | null | undefined, blurredPreview?: string | null | undefined, sourceUrl?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', height?: number | null | undefined, width?: number | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
 export type ListingPageQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -10899,6 +10906,64 @@ export function useListingPathLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type ListingPathQueryHookResult = ReturnType<typeof useListingPathQuery>;
 export type ListingPathLazyQueryHookResult = ReturnType<typeof useListingPathLazyQuery>;
 export type ListingPathQueryResult = Apollo.QueryResult<ListingPathQuery, ListingPathQueryVariables>;
+export const AllListingsDocument = gql`
+    query AllListings($language: LanguageCodeFilterEnum) {
+  allListing(first: 10, where: {language: $language}) {
+    nodes {
+      id
+      title
+      slug
+      acf {
+        address
+        area
+        bathrooms
+        buildingType
+        propertytype
+        displayImage {
+          mimeType
+          blurredPreview
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        facilities
+        price
+        rooms
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useAllListingsQuery__
+ *
+ * To run a query within a React component, call `useAllListingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllListingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllListingsQuery({
+ *   variables: {
+ *      language: // value for 'language'
+ *   },
+ * });
+ */
+export function useAllListingsQuery(baseOptions?: Apollo.QueryHookOptions<AllListingsQuery, AllListingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllListingsQuery, AllListingsQueryVariables>(AllListingsDocument, options);
+      }
+export function useAllListingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllListingsQuery, AllListingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllListingsQuery, AllListingsQueryVariables>(AllListingsDocument, options);
+        }
+export type AllListingsQueryHookResult = ReturnType<typeof useAllListingsQuery>;
+export type AllListingsLazyQueryHookResult = ReturnType<typeof useAllListingsLazyQuery>;
+export type AllListingsQueryResult = Apollo.QueryResult<AllListingsQuery, AllListingsQueryVariables>;
 export const ListingPageDocument = gql`
     query ListingPage($id: ID!) {
   listing(id: $id) {

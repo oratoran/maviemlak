@@ -4,15 +4,27 @@ import { Layout } from "components/Layout";
 import { client } from "utils/apollo-client";
 import { IndexPageDocument, IndexPageQuery } from "generated/graphql";
 import { Carousel } from "react-responsive-carousel";
-import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  Link,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ListingItem } from "components/ListingItem";
 import { FormattedMessage } from "react-intl";
 import { makeSlug } from "utils/makeSlug";
+import { ModalForm } from "components/ModalForm";
 
 const Home: NextPage<{
   data: IndexPageQuery;
 }> = ({ data }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Layout title="Mavi Emlak" description="Description">
       <Carousel>
@@ -37,7 +49,10 @@ const Home: NextPage<{
               p="12"
               pb="20"
             >
-              <NextLink href={`/listings/${makeSlug(item?.slug as string)}`} passHref>
+              <NextLink
+                href={`/listings/${makeSlug(item?.slug as string)}`}
+                passHref
+              >
                 <Link
                   maxW="60%"
                   textAlign="right"
@@ -65,7 +80,7 @@ const Home: NextPage<{
             </Link>
           </NextLink>
         </Flex>
-        <Flex flexWrap="wrap" ml="-4" mr="-4" >
+        <Flex flexWrap="wrap" ml="-4" mr="-4">
           {data.allListing?.nodes?.map((item) => (
             <ListingItem
               key={item?.id}
@@ -134,6 +149,35 @@ const Home: NextPage<{
             </NextLink>
           </Box>
         </Flex>
+      </Container>
+      <Container maxW="container.xl" py="8" my="12">
+        <Flex
+          alignItems="center"
+          bg="blue.900"
+          color="white"
+          p="6"
+          rounded="sm"
+          justifyContent="space-between"
+        >
+          <Text>
+            <FormattedMessage
+              id="sendInquiryDescription"
+              defaultMessage="Do you want to sell, rent or just to get quota for your property?"
+            />
+          </Text>
+          <Button
+            variant="primary"
+            bg="white"
+            color="blue.900"
+            onClick={onOpen}
+          >
+            <FormattedMessage
+              id="sendInquiryBtn"
+              defaultMessage="Send Inquiry"
+            />
+          </Button>
+        </Flex>
+        <ModalForm onClose={onClose} isOpen={isOpen} />
       </Container>
     </Layout>
   );

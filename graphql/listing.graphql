@@ -10,6 +10,35 @@ query ListingPath {
   }
 }
 
+query AllListings($language: LanguageCodeFilterEnum) {
+  allListing(first: 10, where: { language: $language }) {
+    nodes {
+      id
+      title
+      slug
+      acf {
+        address
+        area
+        bathrooms
+        buildingType
+        propertytype
+        displayImage {
+          mimeType
+          blurredPreview
+          sourceUrl
+          mediaDetails {
+            height
+            width
+          }
+        }
+        facilities
+        price
+        rooms
+      }
+    }
+  }
+}
+
 query ListingPage($id: ID!) {
   listing(id: $id) {
     acf {
